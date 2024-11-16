@@ -1,3 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.csv
+
 # Logs
 logs
 *.log
@@ -130,3 +135,4 @@ dist-ssr
 *.sln
 *.sw?
 
+.DS_Store
