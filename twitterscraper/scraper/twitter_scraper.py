@@ -1,9 +1,15 @@
 import os
 import sys
 import pandas as pd
-from progress import Progress
-from scroller import Scroller
-from tweet import Tweet
+import json
+import boto3
+import io
+#from progress import Progress
+#from scroller import Scroller
+#from tweet import Tweet
+from scraper.progress import Progress
+from scraper.scroller import Scroller
+from scraper.tweet import Tweet
 
 from datetime import datetime
 from fake_headers import Headers
@@ -37,8 +43,8 @@ class Twitter_Scraper:
         username,
         password,
         max_tweets=50,
-        scrape_username=None,
-        scrape_hashtag=None,
+        #scrape_username=None,
+        #scrape_hashtag=None,
         scrape_query=None,
         scrape_poster_details=False,
         scrape_latest=True,
@@ -69,8 +75,8 @@ class Twitter_Scraper:
         self.scroller = Scroller(self.driver)
         self._config_scraper(
             max_tweets,
-            scrape_username,
-            scrape_hashtag,
+            #scrape_username,
+            #scrape_hashtag,
             scrape_query,
             scrape_latest,
             scrape_top,
@@ -80,8 +86,8 @@ class Twitter_Scraper:
     def _config_scraper(
         self,
         max_tweets=50,
-        scrape_username=None,
-        scrape_hashtag=None,
+        #scrape_username=None,
+        #scrape_hashtag=None,
         scrape_query=None,
         scrape_latest=True,
         scrape_top=False,
@@ -94,10 +100,10 @@ class Twitter_Scraper:
         self.progress = Progress(0, max_tweets)
         self.scraper_details = {
             "type": None,
-            "username": scrape_username,
-            "hashtag": str(scrape_hashtag).replace("#", "")
-            if scrape_hashtag is not None
-            else None,
+            #"username": scrape_username,
+            #"hashtag": str(scrape_hashtag).replace("#", "")
+            #if scrape_hashtag is not None
+            #else None,
             "query": scrape_query,
             "tab": "Latest" if scrape_latest else "Top" if scrape_top else "Latest",
             "poster_details": scrape_poster_details,
@@ -105,18 +111,18 @@ class Twitter_Scraper:
         self.router = self.go_to_home
         self.scroller = Scroller(self.driver)
 
-        if scrape_username is not None:
-            self.scraper_details["type"] = "Username"
-            self.router = self.go_to_profile
-        elif scrape_hashtag is not None:
-            self.scraper_details["type"] = "Hashtag"
-            self.router = self.go_to_hashtag
-        elif scrape_query is not None:
+        #if scrape_username is not None:
+        #    self.scraper_details["type"] = "Username"
+        #    self.router = self.go_to_profile
+        #elif scrape_hashtag is not None:
+        #    self.scraper_details["type"] = "Hashtag"
+        #    self.router = self.go_to_hashtag
+        if scrape_query is not None:
             self.scraper_details["type"] = "Query"
             self.router = self.go_to_search
-        else:
-            self.scraper_details["type"] = "Home"
-            self.router = self.go_to_home
+        #else:
+        #    self.scraper_details["type"] = "Home"
+        #    self.router = self.go_to_home
         pass
 
     def _get_driver(
@@ -310,7 +316,7 @@ It may be due to the following:
         sleep(3)
         pass
 
-    def go_to_profile(self):
+    '''def go_to_profile(self):
         if (
             self.scraper_details["username"] is None
             or self.scraper_details["username"] == ""
@@ -320,9 +326,9 @@ It may be due to the following:
         else:
             self.driver.get(f"https://twitter.com/{self.scraper_details['username']}")
             sleep(3)
-        pass
+        pass'''
 
-    def go_to_hashtag(self):
+    '''def go_to_hashtag(self):
         if (
             self.scraper_details["hashtag"] is None
             or self.scraper_details["hashtag"] == ""
@@ -336,7 +342,7 @@ It may be due to the following:
 
             self.driver.get(url)
             sleep(3)
-        pass
+        pass'''
 
     def go_to_search(self):
         if self.scraper_details["query"] is None or self.scraper_details["query"] == "":
@@ -375,8 +381,8 @@ It may be due to the following:
         self,
         max_tweets=5,
         no_tweets_limit=False,
-        scrape_username=None,
-        scrape_hashtag=None,
+        #scrape_username=None,
+        #scrape_hashtag=None,
         scrape_query=None,
         scrape_latest=True,
         scrape_top=False,
@@ -385,8 +391,8 @@ It may be due to the following:
     ):
         self._config_scraper(
             max_tweets,
-            scrape_username,
-            scrape_hashtag,
+            #scrape_username,
+            #scrape_hashtag,
             scrape_query,
             scrape_latest,
             scrape_top,
@@ -398,17 +404,17 @@ It may be due to the following:
 
         router()
 
-        if self.scraper_details["type"] == "Username":
-            print(
-                "Scraping Tweets from @{}...".format(self.scraper_details["username"])
-            )
-        elif self.scraper_details["type"] == "Hashtag":
-            print(
-                "Scraping {} Tweets from #{}...".format(
-                    self.scraper_details["tab"], self.scraper_details["hashtag"]
-                )
-            )
-        elif self.scraper_details["type"] == "Query":
+        #if self.scraper_details["type"] == "Username":
+        #    print(
+        #        "Scraping Tweets from @{}...".format(self.scraper_details["username"])
+        #    )
+        #elif self.scraper_details["type"] == "Hashtag":
+        #    print(
+        #        "Scraping {} Tweets from #{}...".format(
+        #            self.scraper_details["tab"], self.scraper_details["hashtag"]
+        #        )
+        #    )
+        if self.scraper_details["type"] == "Query":
             print(
                 "Scraping {} Tweets from {} search...".format(
                     self.scraper_details["tab"], self.scraper_details["query"]
@@ -533,49 +539,42 @@ It may be due to the following:
             print("Tweets: {} out of {}\n".format(len(self.data), self.max_tweets))
 
         pass
-
+    
     def save_to_csv(self):
-        print("Saving Tweets to CSV...")
-        now = datetime.now()
-        folder_path = "./tweets/"
-
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-            print("Created Folder: {}".format(folder_path))
+        print("Saving Tweets to JSON...")
 
         data = {
-            #"Name": [tweet[0] for tweet in self.data],
             "Handle": [tweet[0] for tweet in self.data],
             "Timestamp": [tweet[1] for tweet in self.data],
-            #"Verified": [tweet[3] for tweet in self.data],
             "Content": [tweet[2] for tweet in self.data],
-            #"Comments": [tweet[5] for tweet in self.data],
             "Retweets": [tweet[3] for tweet in self.data],
             "Likes": [tweet[4] for tweet in self.data],
-            #"Analytics": [tweet[8] for tweet in self.data],
-            #"Tags": [tweet[9] for tweet in self.data],
-            #"Mentions": [tweet[10] for tweet in self.data],
-            #"Emojis": [tweet[11] for tweet in self.data],
-            #"Profile Image": [tweet[12] for tweet in self.data],
-            #"Tweet Link": [tweet[13] for tweet in self.data],
-            #"Tweet ID": [f"tweet_id:{tweet[14]}" for tweet in self.data],
         }
-
-        #if self.scraper_details["poster_details"]:
-        #    data["Tweeter ID"] = [f"user_id:{tweet[15]}" for tweet in self.data]
-        #    data["Following"] = [tweet[16] for tweet in self.data]
-        #    data["Followers"] = [tweet[17] for tweet in self.data]
-
-        df = pd.DataFrame(data)
-
-        current_time = now.strftime("%Y-%m-%d_%H-%M-%S")
-        file_path = f"{folder_path}{current_time}_tweets_1-{len(self.data)}.csv"
-        pd.set_option("display.max_colwidth", None)
-        df.to_csv(file_path, index=False, encoding="utf-8")
-
-        print("CSV Saved: {}".format(file_path))
-
-        pass
-
+        
+        json_data = json.dumps(data, indent=4)
+        json_buffer = io.StringIO()
+        json_buffer.write(json_data)
+        json_buffer.seek(0)
+        
+        s3 = boto3.client(
+            "s3",
+            aws_access_key_id=os.getenv("AWS_ACCESS_KEY"),
+            aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
+        )
+        
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        search = input("What company do you want to search for? ").strip().lower()
+        bucket_name = "webscraping-data-2024"
+        s3_key = f"{search}/raw-data/{current_date}.json"
+        
+        s3.put_object(
+            Bucket=bucket_name,
+            Key=s3_key,
+            Body=json_buffer.getvalue(),
+            ContentType="application/json"
+        )
+        print(f"JSON uploaded to S3: {bucket_name}/{s3_key}")
+        
     def get_tweets(self):
         return self.data
+
