@@ -2,24 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import debounce from "lodash.debounce";
+import { useUser } from './UserContext';
 
 // Registering necessary components from Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const HorizontalBarChart =() => {
 
-    const [data1, setData1] = useState(null); // Fetch the data from the Flask server
-    const [data2, setData2] = useState(null);
+    //const { username } = useUser();
+    //const [data, setData] = useState(null);
+    //const [error, setError] = useState(null);
+
+    const [data3, setData3] = useState(null); // Fetch the data from the Flask server
+    const [data4, setData4] = useState(null);
 
     const fetchData = debounce(async () => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/?company=microsoft");
+            const res = await fetch(`http://127.0.0.1:5000/?company=microsoft`);
             if (!res.ok) {
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
             const result = await res.json();
-            setData1(result.outputs[0]);
-            setData2(result.outputs[1]);
+            setData3(result.outputs[2]);
+            setData4(result.outputs[3]);
             //console.log("data is : ", result);
         } catch (err) {
             setError(err.message);
@@ -34,8 +39,8 @@ const HorizontalBarChart =() => {
     }, []);
 
 
-    const states = data1 ? String(data1).split(',') : [];
-    const stateNum = data2 ? String(data2).split(',') : [];
+    const states = data3 ? String(data3).split(',') : [];
+    const stateNum = data4 ? String(data4).split(',') : [];
 
   // Data for the chart
     const chartdata = {
