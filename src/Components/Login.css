@@ -1,87 +1,93 @@
+/* General body styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ffffff; /* Light background color */
-}
-.login-container {
-    background-color: #f2f2f2;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
+    background-color: #f5f8ff; /* Light blue background */
+  }
+  
+  /* Main login container */
+  .login-container {
+    background-color: #ffffff; /* White background for form */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 400px;
+    padding: 40px; /* Inner padding */
+  }
+  
+  /* Styling the form */
+  .login-form {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    gap: 20px; /* Space between elements */
+  }
+  
+  /* Input fields */
+  input {
+    padding: 12px; /* Inner spacing */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 6px; /* Slightly rounded corners */
+    font-size: 16px; /* Larger, legible font */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth focus effect */
+  }
+  
+  /* Focused input style */
+  input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #7ba4e0; /* Blue border on focus */
+    box-shadow: 0 0 6px rgba(123, 164, 224, 0.5); /* Subtle blue glow */
+  }
+  
+  /* Submit button */
+  button {
+    background-color: #7ba4e0; /* Blue background */
+    color: #ffffff; /* White text */
+    padding: 12px; /* Button padding */
+    border: none; /* No border */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 16px; /* Legible font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background-color: #5568a4; /* Slightly darker blue */
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #ff4d4d; /* Red for error */
+    font-size: 14px; /* Slightly smaller font */
+    margin-top: -10px; /* Adjust positioning */
+  }
+  
+  /* Center text inside inputs */
+  .form-group {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    justify-content: center;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-input:focus {
-    outline: none;
-    border-color: #7ba4e0;
-    box-shadow: 0 0 5px rgba(123, 164, 224, 0.4);
-}
-
-button {
-    background-color: #7ba4e0;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #35346f; /* Darker shade on hover */
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 10px;
-}
-
-p {
-    margin: 0;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-  /* Optional: Style for the page's background */
-.login-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 500px;
-    margin-top: 80px;
-    margin-bottom:100px;
-}
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .login-container {
+      width: 90%; /* Adjust width for small screens */
+      padding: 30px; /* Reduce padding */
+    }
+  
+    input {
+      font-size: 14px; /* Adjust font size */
+    }
+  
+    button {
+      font-size: 14px; /* Adjust button font */
+    }
+  }
+  
