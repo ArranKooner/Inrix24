@@ -2,6 +2,7 @@ import React from 'react'
 import PieChart from './PieChart'; 
 import { HorizontalBarChart } from './BarChart'; 
 import TextInput from './TextInput';
+import News from './News'; 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 export function PageOne(){
@@ -46,7 +47,9 @@ export function PageOne(){
                 <h2>Social Media Vibe of the thing: </h2>
             </div>
         </div>
-        <div className="box box5"><h2> Key takeaways from Social media and news coverage of your comapny</h2></div>
+        <div className="box box5"><h2> Key takeaways from Social media and news coverage of your comapny</h2>
+            <News />
+        </div>
         
         <div className="box box6">
         <h2>Most Viral Posts about Company</h2>
@@ -62,5 +65,7 @@ export function PageOne(){
         </div>
     </div>
     )
+
+
 }
 export default PageOne
