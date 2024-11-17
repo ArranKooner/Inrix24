@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './home.css'; // Custom CSS for styling the form
 import { useNavigate } from 'react-router-dom';
+import '../Components/Login.css'
 
 function Login() {
   // State to hold the username and password input values
@@ -53,20 +54,11 @@ const navigate = useNavigate();
             id="username"
             value={username}
             onChange={handleUsernameChange}
-            placeholder="Username"
+            placeholder="Company"
           />
         </div>
         <p></p>
-        <div className="form-group">
-          <label htmlFor="password"></label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Password"
-          />
-        </div>
+        
 
         {error && <p className="error-message">{error}</p>}
 
