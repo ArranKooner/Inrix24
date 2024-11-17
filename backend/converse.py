@@ -112,20 +112,12 @@ def model():
     ranked_companies_us = rank_us_companies(comps_data)
     print("Ranked Companies in the United States:", ranked_companies_us)
 
-    # Sort the data by 'extracted_value' in descending order
+    # Get the top five states and 3 lowest states
     sorted_data = sorted(tops_locs_data, key=lambda x: x["extracted_value"], reverse=True)
-
-    # Get the top 5 states
     top_five = sorted_data[:5]
-
-    # Get the lowest 3 states
     lowest_three = sorted_data[-3:]
-
-    # Extract values and states for top five and lowest three
     top_five_states = [(entry["location"], entry["extracted_value"]) for entry in top_five]
     lowest_three_states = [(entry["location"], entry["extracted_value"]) for entry in lowest_three]
-
-    # Output the results
     print("Top Five States:", top_five_states)
     print("Lowest Three States:", lowest_three_states)
 
