@@ -45,5 +45,5 @@ def upload(outJSON, inputName):
     )
     print(f"JSON uploaded to S3: {bucket_name}/{s3_key}")
 
-inp = input("Please input one name\n")
+inp = input("input one name\n")
 search(inp) 
