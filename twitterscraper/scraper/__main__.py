@@ -130,6 +130,7 @@ def main():
             tweet_type_args.append(args.hashtag)
         if args.query is not None:
             tweet_type_args.append(args.query)
+            
 
         additional_data: list = args.add.split(",")
 
@@ -148,12 +149,9 @@ def main():
                 password=USER_PASSWORD,
             )
             scraper.login()
-            #print ("scraping by query: ", args.query)
             scraper.scrape_tweets(
                 max_tweets=args.tweets,
                 no_tweets_limit= args.no_tweets_limit if args.no_tweets_limit is not None else True,
-                #scrape_username=args.username,
-                #scrape_hashtag=args.hashtag,
                 scrape_query=args.query,
                 scrape_latest=args.latest,
                 scrape_top=args.top,
