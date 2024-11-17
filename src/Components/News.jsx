@@ -4,21 +4,18 @@ import { useUser } from './UserContext';
 
 const News = () => {
   const { username } = useUser();
-  const [data, setData] = useState(null);
+  const [data6, setData6] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = debounce(async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:5000/?company=${username}`);
+        const res = await fetch(`http://127.0.0.1:5000/?company=microsoft`);
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const result = await res.json();
-
-        setData(result.outputs[2]);
-        console.log("data is : ", result);
-
+        setData6(result.outputs[5]);
       } catch (err) {
         setError(err.message);
       }
@@ -30,7 +27,7 @@ const News = () => {
 
   return (
     <div>
-      {data ? <p style={{fontSize: '9px'}}>{data}</p> : <p>Loading...</p>}
+      {data6 ? <p style={{fontSize: '16px'}}>{data6}</p> : <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
     </div>
   );
