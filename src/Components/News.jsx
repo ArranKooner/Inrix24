@@ -14,7 +14,7 @@ const News = () => {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const result = await res.json();
-        setData(result);
+        setData(result.outputs[0]);
         console.log("data is : ", result);
       } catch (err) {
         setError(err.message);
@@ -26,15 +26,7 @@ const News = () => {
 
     return () => fetchData.cancel(); // Cleanup on unmount
   }, []);
-  return (
-    <div>
-      {data ? (
-        data.outputs.map((output, index) => <p key={index} font="12px">{output}</p>)
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  );
+  return <div>{data ? <p style={{fontSize: '9px'}}>{data}</p> : <p style={{fontSize: '12px'}}>Loading...</p>}</div>;
 };
 
 export default News;
