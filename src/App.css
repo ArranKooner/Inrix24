@@ -119,14 +119,79 @@ nav ul li a.active {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
+
+  flex-direction: column;               /* Stack header and chart vertically */
+  justify-content: space-between;       /* Space between header and chart */
+  align-items: center;                  /* Center content horizontally */
+  padding: 2px;
+
   text-align: center;
   font-size: 18px;
   color: #333;
   position: relative;
-  overflow: hidden;
-  height: 100%;
+
+  overflow: hidden;                     /* Prevent content from overflowing */
+  height: 100%;                          /* Take up the full height of the grid cell */
 }
+
+.box h2 {
+  font-size: 20px;
+  margin: 0;                             /* Remove default margin */
+  padding: 10px 0;                       /* Some padding to space out the header */
+  text-align: center;
+}
+
+/* Optional: Add different background colors to each box for better visual separation */
+.box1 { background-color: #e1f5f7; }
+.box2 { background-color: #f7f7f7; }
+.box3 { background-color: #e1f5f7; }
+.box4 { background-color: #f7f7f7 }
+.box5 { background-color: #e1f5f7; }
+.box6 { background-color: #f7f7f7 }
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;   /* Stack boxes in one column */
+    grid-template-rows: repeat(6, 1fr); /* Create 6 equal-height rows */
+  }
+
+}
+
+.box3 h2 {
+  font-size: 22px; /* Increase the font size to make it slightly larger */
+  margin-bottom: 0px; /* Adds space below the title */
+  text-align: center; /* Centers the title */
+}
+
+.box3 p{
+  font-size:18px;
+}
+
+.box6 h2 {
+  font-size: 24px; /* Increase the font size to make it slightly larger */
+  margin-bottom: 5px; /* Adds space below the title */
+  text-align: center; /* Centers the title */
+}
+
+.exsion {
+  margin-bottom: 5px;  /* Adjust this to reduce the space between sections */
+  padding: 5px;        /* Adjust this to reduce inner spacing */
+}
+
+.section {
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 0px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; 
+  font-size:12px/* Ensure content is stacked vertically */
+}
+
+.section h3 {
+  font-size: 18px;
+  margin: 0;
+  padding-bottom: 0px; /* Add space below the heading */
+  align-self: flex-start; /* Ensure the heading aligns to the top left */
+}
+
