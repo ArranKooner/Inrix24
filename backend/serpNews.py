@@ -47,7 +47,7 @@ def news(userInput):
                             "date": story.get("date", "No date")
                         })
         else:
-            print(item)
+            #print(item)
             output.append({
                         "title": item.get("title", "No title"),
                         "source": item.get("source", {}).get("name", "Unknown source"),
