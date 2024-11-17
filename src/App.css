@@ -99,7 +99,7 @@ html, body {
   flex-direction: column;               /* Stack header and chart vertically */
   justify-content: space-between;       /* Space between header and chart */
   align-items: center;                  /* Center content horizontally */
-  padding: 10px;
+  padding: 2px;
   text-align: center;
   font-size: 18px;
   color: #333;
@@ -132,9 +132,13 @@ html, body {
 }
 
 .box3 h2 {
-  font-size: 24px; /* Increase the font size to make it slightly larger */
+  font-size: 22px; /* Increase the font size to make it slightly larger */
   margin-bottom: 0px; /* Adds space below the title */
   text-align: center; /* Centers the title */
+}
+
+.box3 p{
+  font-size:18px;
 }
 
 .box6 h2 {
@@ -143,18 +147,24 @@ html, body {
   text-align: center; /* Centers the title */
 }
 
+.exsion {
+  margin-bottom: 5px;  /* Adjust this to reduce the space between sections */
+  padding: 5px;        /* Adjust this to reduce inner spacing */
+}
+
 .section {
   padding: 10px;
   background-color: #f7f7f7;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column; /* Ensure content is stacked vertically */
+  flex-direction: column; 
+  font-size:12px/* Ensure content is stacked vertically */
 }
 
 .section h3 {
   font-size: 18px;
   margin: 0;
-  padding-bottom: 5px; /* Add space below the heading */
+  padding-bottom: 0px; /* Add space below the heading */
   align-self: flex-start; /* Ensure the heading aligns to the top left */
 }
