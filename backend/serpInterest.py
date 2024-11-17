@@ -1,110 +1,76 @@
-# SerpAPI Google Trends API - Interest by Region
-# Input one name
-import os
-import io
-import json
-from serpapi.google_search import GoogleSearch
-import boto3
-from datetime import datetime
-import numpy as np
-from dotenv import load_dotenv
+import React, { useState, useEffect } from "react";
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import debounce from "lodash.debounce";
+import { useUser } from './UserContext';
 
-load_dotenv()
+// Registering necessary components from Chart.js
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-def search(inputName):
-    print(f"searching for: {inputName}")
-    params = {
-    "engine": "google_trends",
-    "q": inputName,
-    "data_type": "GEO_MAP_0",
-    "geo": "US",
-    "region": "REGION", 
-    "api_key": os.getenv("E_API_KEY")
-    }
-    
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    interest_by_region = results["interest_by_region"]
-    upload(interest_by_region, inputName)
-    return interest_by_region
+const HorizontalBarChart =() => {
 
-# add to s3
-def upload(outJSON, inputName):
-    s3 = boto3.client("s3",aws_access_key_id=os.getenv("AWS_ACCESS_KEY"),aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))   
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    bucket_name = "webscraping-data-2024"
-    s3_key = f"{inputName}/raw-data/{current_date}.json"
+    //const { username } = useUser();
+    //const [data, setData] = useState(null);
+    //const [error, setError] = useState(null);
 
-    json_data = json.dumps(outJSON, indent=4)
-    json_buffer = io.StringIO()
-    json_buffer.write(json_data)
-    json_buffer.seek(0)
+    const [data3, setData3] = useState(null); // Fetch the data from the Flask server
+    const [data4, setData4] = useState(null);
 
-    s3.put_object(
-        Bucket=bucket_name,
-        Key=s3_key,
-        Body=json_buffer.getvalue(),
-        ContentType="application/json"
-    )
-    print(f"JSON uploaded to S3: {bucket_name}/{s3_key}")
+    const fetchData = debounce(async () => {
+        try {
+            const res = await fetch(`http://127.0.0.1:5000/?company=microsoft`);
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            const result = await res.json();
+            setData3(result.outputs[2]);
+            setData4(result.outputs[3]);
+            //console.log("data is : ", result);
+        } catch (err) {
+            setError(err.message);
+            console.error("Fetch error:", err.message);
+        }
+    }, 300);
 
-def serpInterest(inp):
+    useEffect(() => {
+        fetchData();
 
-#inp = input("input one name\n")
-# process data
-    #inp = "hi"
-    temp = search(inp) 
-    output_data = [{'State': item["location"], 'Score': item["extracted_value"], "Category": 0} for item in temp] # Create a new array with only State and Score
-    output_json = json.dumps(output_data, indent=4) # Convert the new array to a JSON string
-    #print(output_json)
-
-    sorted_data = sorted(temp, key=lambda x: x['extracted_value'], reverse=True)
-
-    # Get the top 5 and bottom 5 objects
-    top_5 = sorted_data[:5]
-    bottom_3 = sorted_data[-3:]
-
-    top5_temp = json.dumps(top_5, indent=4)
+    return () => fetchData.cancel(); // Cleanup on unmount
+    }, []);
 
 
-    #output_top5 = [{'State': item.get('location'), 'Score': item.get('extracted_value')} for item in top5_temp]
-    #top5_json = json.dumps(output_top5, indent=4) # Convert the new array to a JSON string
-    #print("\ntop")
-    #print(top5_temp)
+    const states = data3 ? String(data3).split(',') : [];
+    const stateNum = data4 ? String(data4).split(',') : [];
 
-    bottom3_temp = json.dumps(bottom_3, indent=4)
-    #output_bottom3 = [{"State": item["location"], "Score": item["extracted_value"]} for item in bottom3_temp]
-    #bottom3_json = json.dumps(output_bottom3, indent=4) # Convert the new array to a JSON string
-    #print("\nbottom")
-    #print(bottom3_temp)
+  // Data for the chart
+    const chartdata = {
+        labels: states, // Labels on the Y-axis
+        datasets: [
+            {
+                label: 'Most Searched in States',
+                data: stateNum, // Values for each bar
+                backgroundColor: ['#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ea9999', '#ea9999', '#ea9999'], // Bar colors
+                borderColor: ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'], // Bar border colors
+                borderWidth: 1,
+            },
+            ],
+    };
 
-    # score them
-    # Extract the scores
-    scores = [item['extracted_value'] for item in temp]
-
-    # Calculate percentiles
-    q10 = np.percentile(scores, 10) # 10th
-    q25 = np.percentile(scores, 25)  # 25th percentile
-    q75 = np.percentile(scores, 75)  # 75th percentile
-    q95 = np.percentile(scores, 95)  # 95th percentile
-    # Function to categorize the score
-    def categorize(score):
-        if score == 0:
-            return 0
-        elif score >= q95:
-            return 5
-        elif score >= q75:
-            return 4
-        elif score >= q25:
-            return 3
-        elif score >= q10:
-            return 2
-        else:
-            return 1
-
-    # Create a new array with categories that rank the search frequency
-    #output_data_cat = [{"State": item["location"], "Score": item["extracted_value"], "Category": categorize(item["extracted_value"])} for item in temp]
-    #output_json_cat = json.dumps(output_data_cat, indent=4)
-
-if __name__ == "__main__":
-    serpInterest("hi")
+  // Chart options
+    const options = {
+        indexAxis: 'y', // This makes the chart horizontal
+        responsive: true, // Ensures the chart is responsive to container size
+        maintainAspectRatio: false, // Allows chart to scale based on container size
+        scales: {
+            x: {
+                beginAtZero: true, // Ensures the x-axis starts at 0
+            },
+        },
+    };
+    return (
+        <div style={{ width: '100%', height: '90%'  }}>
+            <Bar data={chartdata} options={options} />
+        </div>
+    );
+}
+export default HorizontalBarChart
