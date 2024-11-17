@@ -48,7 +48,7 @@ export function PageOne(){
                 <h2>Social Media Vibe of the thing: </h2>
             </div>
         </div>
-        <div className="box box5"><h2> Key takeaways from Social media and news coverage of your comapny</h2>
+        <div className="box box5"><h2> Key takeaways from Social media and news coverage of your company</h2>
             <News />
         </div>
         

@@ -32,8 +32,9 @@ export function Home() {
 
     return (
     <div>
-        <img src="/realogo2.jpg" alt="Real" className="logo" />
-
+        <img src="/Probe.png" alt="Real" className="logo" />
+        <p></p>
+        <div class="typing">"Where customer opinions meet business strategy."</div>
         <p></p>
         <Login />
         <p></p>

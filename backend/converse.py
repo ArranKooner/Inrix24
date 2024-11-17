@@ -2,7 +2,7 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import serpNews
 import redditscraper
@@ -111,7 +111,7 @@ def model():
         print(output)
 
     # Return the outputs in a response-friendly format (if using Flask)
-    return {"outputs": outputs}
+    return jsonify({"outputs": outputs})
 
 
 if __name__ == "__main__":
