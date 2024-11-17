@@ -1,109 +1,135 @@
+/* Ensure the root element has full width and height */
 #root {
-
-  width: 100vw;          /* Make sure it takes the full viewport width */
-  height: 100vh;         /* Ensure it takes the full viewport height */
+  width: 100vw; /* Full viewport width */
+  height: 100vh;
   margin: 0;
-  padding: 2rem;
-
-  text-align: center;
-  top:0;
-  width: 100%;
-  height: 100vh; /* Ensure full viewport height */
-  display: flex; /* Use flexbox to center content */
+  display: flex; /* Flexbox layout */
   flex-direction: column; /* Stack items vertically */
   justify-content: flex-start; /* Align content to the top */
+  text-align: center;
 }
 
-/* General styling for the page */
+/* General body styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f4f4f9; /* Light background for contrast */
 }
 
-/* Styling for the navigation bar */
+/* Navbar styling */
 nav {
-  background-color: #7ba4e0; /* Dark background color */
-  padding: 10px;
-  top: 0; 
+  background-color: #7ba4e0; /* Light blue background */
+  padding: 20px 50px; /* Reduced top/bottom padding and increased left/right padding */
+  position: sticky; /* Make navbar sticky */
+  top: 0;
+  left: 0;
   right: 0;
-  left:0;
-  position: sticky;
-  width: 100%;
-  z-index: 1000;
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure navbar stays on top */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation effect */
+  border-radius: 10px; /* Optional: Rounded corners for a softer look */
 }
 
-/* Styling for the unordered list inside the navbar */
+/* Styling for the navbar links container */
 nav ul {
-  list-style: none;
+  list-style: none; /* Remove default list styling */
   margin: 0;
   padding: 0;
-  display: flex; /* Use flexbox to arrange list items horizontally */
-  justify-content: center; /* Center the items */
+  display: flex; /* Flexbox for horizontal layout */
+  justify-content: center; /* Center the links */
+  align-items: left; /* Ensure the links are centered vertically */
 }
 
 /* Styling for each list item */
 nav ul li {
-  margin-right: 20px;
+  margin-right: 30px; /* Increased space between links */
 }
 
-/* Styling for links inside the navbar */
+/* Styling for navbar links */
 nav ul li a {
-  color: white; /* White text color */
-  text-decoration: none; /* Remove underline from links */
-  font-size: 18px;
-  padding: 10px 15px;
-  display: inline-block; /* Make the link behave like a block element */
-  transition: background-color 0.3s ease; /* Smooth background change */
+  color: white; /* White text */
+  text-decoration: none; /* Remove underlines */
+  font-size: 30px; /* Font size */
+  padding: 12px 25px; /* More padding for better spacing */
+  display: inline-block; /* Make links behave like block elements */
+  border-radius: 5px; /* Rounded corners for links */
+  transition: all 0.3s ease; /* Smooth transition for hover and active states */
 }
 
-
-html, body {
-  height: 100%; /* Ensure the body takes up the full viewport height */
-  margin: 0;    /* Remove any default margin */
+/* Hover effect for links */
+nav ul li a:hover {
+  background-color: #4781d8; /* Change background color on hover */
+  color: #fff; /* Ensure the text color stays white on hover */
+  transform: scale(1.05); /* Slight zoom effect for a modern feel */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
 }
 
+/* Active link styling */
+nav ul li a.active {
+  background-color: #4781d8; /* Highlight active link */
+  color: white; /* Ensure active link text is white */
+  border-radius: 5px;
+  padding: 14px 28px; /* Slightly larger padding for active state */
+}
+
+/* Mobile responsiveness: stack navbar items */
+@media (max-width: 768px) {
+  nav {
+    padding: 20px 30px; /* Less padding on small screens */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack links vertically */
+    align-items: center; /* Center links vertically */
+  }
+
+  nav ul li {
+    margin-bottom: 15px; /* Space between stacked items */
+  }
+}
+
+/* Optional: If you want to add a "logo" or branding text */
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  margin-right: auto; /* Push the logo to the left */
+}
+
+/* Styling for other components */
 .chart {
   flex: 1;
-  width: 100%;        /* Make the chart fill the width of the box */
-  display: block;     /* Make it a block-level element */
-  overflow: hidden;   /* Prevent overflow if the chart exceeds the box */
+  width: 100%;
+  display: block;
+  overflow: hidden;
 }
 
 .grid-container {
-  display: grid;               /* Enable grid layout */
-  grid-template-columns: repeat(3, 1fr);  /* Create 3 equal-width columns */
-  grid-template-rows: 50vh 50vh; /*: repeat(2, 1fr);      Create 2 equal-height rows */
-  gap: 0;                       /* Remove space between boxes (optional) */
-  width: 100vw;                 /* Ensure the grid takes the full width of the viewport */
-  height: 100vh;                /* Ensure the grid takes the full height of the viewport */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 50vh 50vh;
+  gap: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-/*
-.box {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  display: flex;                
-  justify-content: center;      
-  align-items: center;          
-  text-align: center;
-  font-size: 24px;
-  color: #333;
-  position: relative;   
-}
-*/
 .box {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   display: flex;
+
   flex-direction: column;               /* Stack header and chart vertically */
   justify-content: space-between;       /* Space between header and chart */
   align-items: center;                  /* Center content horizontally */
   padding: 2px;
+
   text-align: center;
   font-size: 18px;
   color: #333;
   position: relative;
+
   overflow: hidden;                     /* Prevent content from overflowing */
   height: 100%;                          /* Take up the full height of the grid cell */
 }
@@ -168,3 +194,4 @@ html, body {
   padding-bottom: 0px; /* Add space below the heading */
   align-self: flex-start; /* Ensure the heading aligns to the top left */
 }
+

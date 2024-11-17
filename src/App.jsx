@@ -16,8 +16,8 @@ function App() {
         {/* Navigation Bar */}
         <nav>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/pagetwo">About</Link></li>
+            <li><Link to="/"className="nav-link">Home</Link></li>
+            <li><Link to="/pagetwo"className="nav-link">About</Link></li>
           </ul>
         </nav>
         {/* Routes */}
@@ -31,19 +31,3 @@ function App() {
   );
 }
 export default App;
-
-
-
-
-
-{/* 
-    <>
-      <Textbox/>
-      <Button text={"Analyze"} color={"#ADD8E6"}/>
-      <TextInput/>
-    </>
-  )
-}
-
-export default App
-*/}
