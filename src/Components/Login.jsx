@@ -19,6 +19,7 @@ function Login() {
     // Simple validation (e.g., username and password are not empty)
     if (username === '' ) {
       setError('Company cannot be empty.');
+      return;
     }
     if (password === 'password') {
       setError('');
