@@ -6,11 +6,10 @@ import debounce from "lodash.debounce";
 // Register chart.js components
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale);
 
-const PieChart = () => {
+const PieTwo = () => {
   // Data for the pie chart
 
-    const [data1, setData1] = useState(null); // Fetch the data from the Flask server
-    const [data2, setData2] = useState(null);
+    const [data5, setData5] = useState(null); // Fetch the data from the Flask server
 
     const fetchData = debounce(async () => {
         try {
@@ -19,8 +18,7 @@ const PieChart = () => {
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
             const result = await res.json();
-            setData1(result.outputs[0]);
-            setData2(result.outputs[1]);
+            setData5(result.outputs[4]);
             //console.log("data is : ", result);
         } catch (err) {
             setError(err.message);
@@ -34,16 +32,14 @@ const PieChart = () => {
     return () => fetchData.cancel(); // Cleanup on unmount
     }, []);
 
-    const states = data1 ? String(data1).split(',') : [];
-    const stateNum = data2 ? String(data2).split(',') : [];
-
+    const states = data5 ? String(data5).split(',') : [];
 
     const chartdata = {
-        labels: states,
+        labels: ['Positive', 'Nuetral', 'Negative'],
         datasets: [
             {
-                data: stateNum,
-                backgroundColor: ['#ADD8E6', '#B0E0E6', '#8FD9FB'],
+                data: states,
+                backgroundColor: ['#B0E0E6', '#D3D3D3', '#ea9999'],
                 hoverOffset: 4,
             },
         ],
@@ -82,4 +78,4 @@ const PieChart = () => {
         </div>
     );
 }
-export default PieChart;
+export default PieTwo;

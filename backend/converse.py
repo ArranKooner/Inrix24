@@ -7,8 +7,23 @@ from flask_cors import CORS
 import serpNews
 import redditscraper
 import serpInterest
+import serpCompare
 
 load_dotenv()
+
+def rank_us_companies(comp_data):
+    us_data = next((entry for entry in comp_data if entry["geo"] == "US"), None)
+    
+    if not us_data:
+        return "No data found for the United States."
+    
+    ranked_companies = sorted(us_data["values"], key=lambda x: x["extracted_value"], reverse=True)
+    
+    # Separate company names and their corresponding values
+    company_names = [company["query"] for company in ranked_companies]
+    company_values = [company["extracted_value"] for company in ranked_companies]
+    
+    return company_names, company_values
 
 app = Flask(__name__)
 CORS(app)
@@ -29,19 +44,66 @@ def model():
     s3 = boto3.client(
         "s3", aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key
     )
-
-    # Get company from request arguments
+    
+    #get the competitors
     company = request.args.get('company', 'netflix')
+    # Initialize Bedrock client
+    client = boto3.client(
+        service_name="bedrock-runtime",
+        aws_access_key_id=access_key_id,
+        aws_secret_access_key=secret_access_key,
+        region_name="us-west-2",
+    )
+    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
 
+    #get the competitors
+    company = request.args.get('company', 'netflix')
+    # Initialize Bedrock client
+    client = boto3.client(
+        service_name="bedrock-runtime",
+        aws_access_key_id=access_key_id,
+        aws_secret_access_key=secret_access_key,
+        region_name="us-west-2",
+    )
+    user_message = "give me the top 5 competitors of this provided company. But format it with no spaces so its company,competitor1,competitor2,competittor3 " + company
+    conversation = [
+    {
+        "role": "user",
+        "content": [{"text": user_message}],
+    }
+    ]
+    try:
+        streaming_response = client.converse_stream(
+            modelId=model_id,
+            messages=conversation,
+            inferenceConfig={"maxTokens": 512, "temperature": 0.5, "topP": 0.9},
+        )
+
+        # Extract and print the streamed response text in real-time.
+        company_competitors = ""
+        for chunk in streaming_response["stream"]:
+            if "contentBlockDelta" in chunk:
+                text = chunk["contentBlockDelta"]["delta"]["text"]
+                company_competitors+=text
+
+    except (ClientError, Exception) as e:
+        print(f"ERROR: Can't invoke '{model_id}'. Reason: {e}")
+        exit(1)
+    print("the company string "+company_competitors)
+    
     # Calls the web scrapers
     serpNews.news(company)
     redditscraper.redditscraper(company)
     serpInterest.serpInterest(company)
+    serpCompare.serpCompare(company_competitors)
+    
 
-    # S3 keys
+
     raw_data_key = f"{company}/raw-data/2024-11-17.json"
     processed_data_key = f"{company}/processed-data/2024-11-17/{company}.json"
     top_locs_data_key = f"{company}/raw-data/2024-11-17.json"
+    comp_data_key = f"{company_competitors}/raw-data/2024-11-17.json"
+
 
     def fetch_data(key):
         """Fetch data from S3 and return content."""
@@ -60,6 +122,8 @@ def model():
     raw_data = fetch_data(raw_data_key)
     processed_data = fetch_data(processed_data_key)
     tops_locs_data = fetch_data(top_locs_data_key)
+    comps_data = fetch_data(comp_data_key)
+
 
     # Initialize Bedrock client
     client = boto3.client(
@@ -69,18 +133,47 @@ def model():
         region_name="us-west-2",
     )
 
-    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
-    prompts = [
-        #f"Analyze the public sentiment about {company}'s latest product based on this data: {raw_data}",
-        
-        #f"Identify the most viral news and Reddit posts about {company} and their impact: {raw_data + processed_data}",
-        #f"Output the five states where it's most popular and the three where it's not from this data: {tops_locs_data}",
-        f"Output JUST the five locations with the highest extracted_values and the three locations with the lowest extracted_values data split by commas: {tops_locs_data}",
-        f"Output JUST the five highest extracted_values and the three lowest extracted_value split by commas: {tops_locs_data}",
-        #f"Summarize the top three concerns about {company} from the provided data's comment text: {processed_data}",
-    ]
-
     outputs = []
+
+        #ARRANSAMHITA
+    company_names, company_values = rank_us_companies(comps_data)
+    outputs.append(company_names)
+    outputs.append(company_values)
+    
+    # Sort the data based on "extracted_value" in descending order
+    sorted_data = sorted(tops_locs_data, key=lambda x: x["extracted_value"], reverse=True)
+
+    # Select the top five and lowest three states
+    top_five = sorted_data[:5]
+    lowest_three = sorted_data[-3:]
+
+    # Combine both lists (top five and lowest three)
+    combined_states = [entry["location"] for entry in top_five + lowest_three]
+    combined_values = [entry["extracted_value"] for entry in top_five + lowest_three]
+
+    # Print the results
+    print("Combined States:", combined_states)
+    print("Combined Values:", combined_values)
+    
+    
+    #sorted_data = sorted(tops_locs_data, key=lambda x: x["extracted_value"], reverse=True)
+    #top_five = sorted_data[:5]
+    #lowest_three = sorted_data[-3:]
+    #top_five_states = [(entry["location"], entry["extracted_value"]) for entry in top_five]
+    #lowest_three_states = [(entry["location"], entry["extracted_value"]) for entry in lowest_three]
+    #print("Top Five States:", top_five_states)
+    #print("Lowest Three States:", lowest_three_states)
+    
+    outputs.append(combined_states)
+    outputs.append(combined_values)
+    
+    
+    prompts = [
+        f"Give three percentages that total to 100 of the positive, negative, and neutral feedback in this format with only integers: percent positive, percent negative, percent neutral: {raw_data}",
+        f"Summarize the top three concerns about {company} from the provided data. no other text but the concerns.: {processed_data}",
+        f"Identify the most viral news and Reddit posts about {company} and their impact. no other text but the news and reddit posts: {raw_data + processed_data}",
+    ]
+    
     for prompt in prompts:
         conversation = [{"role": "user", "content": [{"text": prompt}]}]
         try:
@@ -100,15 +193,13 @@ def model():
             if debug_mode:
                 logging.error(f"ERROR: Can't invoke '{model_id}' for prompt '{prompt}'. Reason: {e}")
             outputs.append(f"Error for prompt: {prompt}")
-
-    # for i, output in enumerate(outputs):
-    #     if debug_mode:
-    #         print(f"Response {i + 1}:\n{output}\n")
-    # return outputs
-    # Print final outputs to the console
+    
+    
     for i, output in enumerate(outputs):
         print(f"\n==== Response {i + 1} ====")
         print(output)
+        
+    
 
     # Return the outputs in a response-friendly format (if using Flask)
     return jsonify({"outputs": outputs})

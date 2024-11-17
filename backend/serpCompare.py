@@ -48,29 +48,33 @@ def upload(outJSON, inputName):
     )
     print(f"JSON uploaded to S3: {bucket_name}/{s3_key}")
 
-inp = input("input two or more names, seperated by commas\n")
+def serpCompare(inp):
+    #inp = input("input two or more names, seperated by commas\n")
 
-# proccess data
-search_string = "United States"
-result_data = [item for item in gsearch(inp) if item.get("location") == search_string]
-output_data = []
-for item in result_data:
-    location = item.get("location")
-    values = item.get("values", [])
-    
-    # Iterate through the list of values
-    for value in values:
-        # Extract the "query" and "value" fields
-        query = value.get("query")
-        extracted_value = value.get("value")
+    # proccess data
+    search_string = "United States"
+    result_data = [item for item in gsearch(inp) if item.get("location") == search_string]
+    output_data = []
+    for item in result_data:
+        location = item.get("location")
+        values = item.get("values", [])
+        
+        # Iterate through the list of values
+        for value in values:
+            # Extract the "query" and "value" fields
+            query = value.get("query")
+            extracted_value = value.get("value")
 
-        # Append a new object with "location", "query", and "value"
-        output_data.append({
-            "location": location,
-            "query": query,
-            "value": extracted_value
-        })
+            # Append a new object with "location", "query", and "value"
+            output_data.append({
+                "location": location,
+                "query": query,
+                "value": extracted_value
+            })
 
-# Convert the new array to a JSON string for pretty printing
-output_json = json.dumps(output_data, indent=4)
-print(output_json)
+    # Convert the new array to a JSON string for pretty printing
+    output_json = json.dumps(output_data, indent=4)
+    #print(output_json)
+
+if __name__ == "__main__":
+    serpCompare("tesla")
