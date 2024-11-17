@@ -20,8 +20,7 @@ def rank_us_companies(comp_data):
 
     ranked_companies = sorted(us_data["values"], key=lambda x: x["extracted_value"], reverse=True)
     
-    ranked_company_names = [company["query"] for company in ranked_companies]
-    
+    ranked_company_names = [(company["query"], company["extracted_value"]) for company in ranked_companies]
     return ranked_company_names
 
 app = Flask(__name__)
