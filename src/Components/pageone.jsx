@@ -1,13 +1,15 @@
 import React from 'react'
 import PieChart from './PieChart'; 
-import { HorizontalBarChart } from './BarChart'; 
+import  HorizontalBarChart from './BarChart'; 
 import TextInput from './TextInput';
 import News from './News'; 
+import Box3 from './BoxThree';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 export function PageOne(){
     return (
         <div className="grid-container">
+
         <div className="box box1">
             <h2>You vs. Competitors Search Trend</h2>
             <div className="chart">
@@ -31,7 +33,6 @@ export function PageOne(){
 
             <div className="section">
                 <h3>Posts on Reddit</h3>
-                <p>Positive: x% | Neutral: x% | Negative: x%</p>
             </div>
 
             <div className="section">

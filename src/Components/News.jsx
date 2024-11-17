@@ -14,7 +14,7 @@ const News = () => {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const result = await res.json();
-        setData(result.outputs[0]);
+        setData(result.outputs[2]);
         console.log("data is : ", result);
       } catch (err) {
         setError(err.message);

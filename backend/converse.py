@@ -71,10 +71,13 @@ def model():
 
     model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
     prompts = [
-        f"Analyze the public sentiment about {company}'s latest product based on this data: {raw_data}",
-        f"Summarize the top three concerns about {company} from the provided data: {processed_data}",
-        f"Identify the most viral news and Reddit posts about {company} and their impact: {raw_data + processed_data}",
-        f"Output the five states where it's most popular and the three where it's not from this data: {tops_locs_data}",
+        #f"Analyze the public sentiment about {company}'s latest product based on this data: {raw_data}",
+        
+        #f"Identify the most viral news and Reddit posts about {company} and their impact: {raw_data + processed_data}",
+        #f"Output the five states where it's most popular and the three where it's not from this data: {tops_locs_data}",
+        f"Output JUST the five locations with the highest extracted_values and the three locations with the lowest extracted_values data split by commas: {tops_locs_data}",
+        f"Output JUST the five highest extracted_values and the three lowest extracted_value split by commas: {tops_locs_data}",
+        #f"Summarize the top three concerns about {company} from the provided data's comment text: {processed_data}",
     ]
 
     outputs = []
