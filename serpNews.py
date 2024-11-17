@@ -84,3 +84,4 @@ def news():
 
 if __name__ == "__main__":
     news()
+    print("Hello")
