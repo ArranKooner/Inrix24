@@ -2,13 +2,16 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import serpNews
 import redditscraper
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
+
 @app.route('/')
 def model():
 
@@ -104,11 +107,11 @@ def model():
                 text = chunk["contentBlockDelta"]["delta"]["text"]
                 print(text, end="")
                 output += text
-        return output
+        return jsonify({"response": output})
 
     except (ClientError, Exception) as e:
         print(f"ERROR: Can't invoke '{model_id}'. Reason: {e}")
         exit(1)
         
 if __name__ == "__main__":
-    model()
+    app.run(debug=True)
