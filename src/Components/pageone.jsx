@@ -6,6 +6,7 @@ import News from './News';
 import Box3 from './BoxThree';
 import Pop from './Popularity';
 import PieTwo from './PieTwo';
+import Feature from './Feature';
 import "./pageone.css";
 import News2 from './News2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -37,8 +38,7 @@ export function PageOne(){
         <div className="box box4">
             <div>
                 <h2>Specific Product/Feature Analyzer</h2>
-                <TextInput />
-                <h2>Social Media Vibe of the thing: </h2>
+                <Feature />
             </div>
         </div>
         <div className="box box5"><h2> Key takeaways from Social media and news coverage of your company</h2>

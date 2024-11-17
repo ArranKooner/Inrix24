@@ -27,7 +27,7 @@ const News = () => {
 
   return (
     <div>
-      {data6 ? <p style={{fontSize: '16px'}}>{data6}</p> : <p>Loading...</p>}
+      {data6 ? <p style={{fontSize: '13px'}}>{data6}</p> : <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
     </div>
   );

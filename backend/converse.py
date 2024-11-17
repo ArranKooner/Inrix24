@@ -170,8 +170,9 @@ def model():
     
     prompts = [
         f"Give three percentages that total to 100 of the positive, negative, and neutral feedback in this format with only integers: percent positive, percent negative, percent neutral: {raw_data}",
-        f"Summarize the top three concerns about {company} from the provided data. no other text but the concerns.: {processed_data}",
-        f"Identify the most viral news and Reddit posts about {company} and their impact. no other text but the news and reddit posts: {raw_data + processed_data}",
+        f"Summarize the top three concerns about {company} from the provided data in one sentance each. no other text but the concerns: {processed_data}",
+        f"Identify the two reddit posts with highest upvotes about {company} and their impact. no other text but the reddit posts and their impact in 4 sentaces total: {raw_data + processed_data}",
+        f"Identify one specific new product that's trending and provide a two sentences of feedback for it: {raw_data + processed_data}",
     ]
     
     for prompt in prompts:
