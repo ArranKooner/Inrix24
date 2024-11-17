@@ -8,11 +8,11 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale)
 const PieChart = () => {
   // Data for the pie chart
     const data = {
-        labels: ['Red', 'Blue', 'Yellow'],
+        labels: ['You', 'Comp1', 'Comp2'],
         datasets: [
             {
                 data: [12, 19, 8],
-                backgroundColor: ['#FF0000', '#0000FF', '#FFFF00'],
+                backgroundColor: ['#ADD8E6', '#B0E0E6', '#8FD9FB'],
                 hoverOffset: 4,
             },
         ],
@@ -20,6 +20,22 @@ const PieChart = () => {
 
   // Options to customize the chart
     const options = {
+        plugins: {
+            legend: {
+                labels: {
+                    font: {
+                        size: 18, // Increase label font size
+                    },
+                },
+            },
+            tooltip: {
+                callbacks: {
+                    label: (tooltipItem) => {
+                    return `${tooltipItem.label}: ${tooltipItem.raw}%`; // Adjust tooltip label
+                    },
+                },
+                },
+        },
         indexAxis: 'y', // This makes the chart horizontal
         responsive: true, // Ensures the chart is responsive to container size
         maintainAspectRatio: false, // Allows chart to scale based on container size
