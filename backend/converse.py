@@ -16,27 +16,28 @@ s3 = boto3.client(
 )
 
 # List all objects in the bucket
-response = s3.list_objects(Bucket=bucket_name)
+# response = s3.list_objects(Bucket=bucket_name)
 
-# Print the object details
-print("Objects in the bucket:")
-for obj in response.get("Contents", []):
-    print(f"- {obj['Key']} (Last modified: {obj['LastModified']})")
+# # Print the object details
+# print("Objects in the bucket:")
+# for obj in response.get("Contents", []):
+#     print(f"- {obj['Key']} (Last modified: {obj['LastModified']})")
 
-
+company = "chickfila"
 # Path of the file in S3
-object_key = "processed-data/reddit/chickfila_threads.json"
+object_key = "processed-data/reddit/"+company+"_threads.json"
+# local_file_path = "./someFile.txt"
 
-# save the file in the current directory.
-local_file_path = "./someFile.txt"
+# # Download the object from S3
+# s3.download_file(bucket_name, object_key, local_file_path)
+# with open('./someFile.txt', 'r') as file:
+#     data = file.read()
+#     print(data)
 
-# Download the object from S3
-s3.download_file(bucket_name, object_key, local_file_path)
-with open('./someFile.txt', 'r') as file:
-    data = file.read()
-    print(data)
+s3_object = s3.get_object(Bucket=bucket_name, Key=object_key)
+data = s3_object['Body'].read().decode('utf-8')
 
-print(f"Object '{object_key}' downloaded to '{local_file_path}'")
+#print(f"Object '{object_key}' downloaded to '{local_file_path}'")
 client = boto3.client(
     service_name="bedrock-runtime",
     aws_access_key_id=access_key_id,
@@ -46,9 +47,9 @@ client = boto3.client(
 
 # The model ID for the model you want to use
 model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
-company = "chikfila"
+
 # The message you want to send to the model
-user_message = "read this data and give me feedback for this "+ company+"'s business model based on the tweets provided. give specific points that customers bring up. Also if any competitors are named, state them. :" + data
+user_message = "read this data and give me feedback for this"+company+"'s business model based on the tweets provided. give specific points that customers bring up. Also if any competitors are named, state them. :" + data
 
 conversation = [
     {
