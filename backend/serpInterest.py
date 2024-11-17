@@ -7,8 +7,9 @@ from serpapi.google_search import GoogleSearch
 import boto3
 from datetime import datetime
 import numpy as np
+from dotenv import load_dotenv
 
-
+load_dotenv()
 def search(inputName):
     print(f"searching for: {inputName}")
     params = {

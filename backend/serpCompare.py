@@ -7,9 +7,10 @@ import json
 from serpapi.google_search import GoogleSearch
 import boto3
 from datetime import datetime
+from dotenv import load_dotenv
 
 # user must input at least two names, seperated by commas
-
+load_dotenv()
 def gsearch(inputName):
     print(f"searching for: {inputName}")
     params = {
@@ -18,7 +19,7 @@ def gsearch(inputName):
     "region": "COUNTRY",
     "data_type": "GEO_MAP",
     #"api_key": "e540c6dba23d79b551bf14008e03f0d8966a9811d826a101f267800a198d1ad6"
-    "api_key":os.getenv("E_API_KEY")
+    "api_key":os.getenv("E_API_key")
     }
 
     search = GoogleSearch(params)
