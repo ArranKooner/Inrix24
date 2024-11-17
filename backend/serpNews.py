@@ -9,7 +9,7 @@ import io
 
 load_dotenv()
 
-def news():
+def news(userInput):
     # Fetch API keys from environment variables
     API_KEY = os.getenv("SERPAPI_KEY")
     AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
@@ -21,7 +21,7 @@ def news():
     if not AWS_ACCESS_KEY or not AWS_SECRET_ACCESS_KEY:
         raise ValueError("AWS keys are missing. Check your .env file.")
     
-    name = input("What company do you want to search for? ").strip().lower()
+    name = userInput
 
     params = {
       "engine": "google_news",
@@ -84,4 +84,3 @@ def news():
 
 if __name__ == "__main__":
     news()
-    print("Hello")
