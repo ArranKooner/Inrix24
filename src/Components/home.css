@@ -1,101 +1,73 @@
-.logo {
-    margin-top: 40px;
-    margin-bottom: 100px;
-    max-width: 400px; /* Limit the width of the image */
-    height: auto; /* Maintain the aspect ratio */
-    border-radius: 10px; /* Rounded corners */
-    margin-bottom: 10px; /* Add space below the image */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;700&display=swap');
+
+/* Main home container */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #f9c492, #5b86dd); /* Example: Blue to Gold gradient */
+  color: white; /* Ensure text contrasts with background */
 }
 
-/* Style for the dropdown container */
-.dropdown {
-    position: relative;
-    display: inline-block;
+/* Bubble logo styling */
+.bubble-logo {
+  display: flex;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 10rem;
+  color: #7ba4e0; /* Light blue */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  margin-top: -130px;
+  animation: slideIn 2s ease-in-out; /* Slower slide-in animation */
 }
 
-  /* Style for the dropdown button */
-.dropdown-toggle {
-    padding: 10px;
-    background-color: #7ba4e0;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    width: 200px;
-    text-align: left;
-}
-
-  /* Dropdown menu style */
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    padding: 5px 0;
-    list-style-type: none;
-    margin: 0;
-}
-
-  /* Style for each dropdown item */
-.dropdown-menu li {
-    padding: 8px 16px;
-    cursor: pointer;
-}
-
-  /* Hover effect for dropdown items */
-.dropdown-menu li:hover {
-    background-color: #ddd;
-}
-
-p {
-    font-family: Arial, sans-serif; /* Set the font */
-    font-size: 40px; /* Set the font size */
-    line-height: 1.6; /* Set line height for better readability */
-    color: #333; /* Set text color */
-    margin: 10px 0; /* Set margin to add space above and below paragraphs */
-    text-align: center; /* Align text to the left (can also be center or right) */
-}  
-p2{
-    font-family: 'Courier New', Courier, monospace; /* Set the font */
-    font-size: 40px; /* Set the font size */
-    line-height: 1.6; /* Set line height for better readability */
-    color: #1a486e; /* Set text color */
-    margin: 10px 0; /* Set margin to add space above and below paragraphs */
-    text-align: center; /* Align text to the left (can also be center or right) */
-}
-
+/* Tagline with typing animation */
 .typing {
-    font-family: 'Courier New', Courier, monospace; /* Monospace font for realistic typing effect */
-    font-size: 24px; /* Adjust the font size as needed */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    border-right: 2px solid black; /* Cursor effect */
-    width: 0; /* Start with no visible text */
-    animation: typing 4s steps(40) 1s 1 normal both, blink 0.75s step-end infinite; /* Typing animation */
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 40px;
+  animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #7ba4e0; /* Matches the color scheme */
+  animation-delay: 2s;
+  width: fit-content;
 }
 
-  /* Keyframes for typing effect */
+/* Add blinking effect for cursor */
 @keyframes typing {
-    from {
+  from {
     width: 0;
-    }
-    to {
+  }
+  to {
     width: 100%;
-    }
+  }
 }
 
-  /* Keyframes for blinking cursor effect */
 @keyframes blink {
-    50% {
+  0%, 100% {
     border-color: transparent;
-    }
+  }
+  50% {
+    border-color: #7ba4e0;
+  }
 }
 
-  /* After typing is finished, the cursor will disappear */
-.typing-complete {
-    animation: none; /* Stop the animation */
-    border-right: none; /* Remove the cursor */
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
