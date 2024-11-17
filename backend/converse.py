@@ -3,6 +3,7 @@ from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
 from flask import Flask, request
+from flask_cors import CORS
 import serpNews
 import redditscraper
 import serpInterest
@@ -10,6 +11,7 @@ import serpInterest
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 @app.route('/')
 
 def model():

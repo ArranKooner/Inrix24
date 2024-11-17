@@ -9,7 +9,7 @@ const News = () => {
   useEffect(() => {
     const fetchData = debounce(async () => {
       try {
-        const res = await fetch("http://127.0.0.1:5000/?company=meta");
+        const res = await fetch("http://127.0.0.1:5000/?company=microsoft");
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
@@ -21,17 +21,17 @@ const News = () => {
         console.error("Fetch error:", err.message);
       }
     }, 300); // Debounce by 300ms
-  
+
     fetchData();
-  
+
     return () => fetchData.cancel(); // Cleanup on unmount
   }, []);
   return (
     <div>
       {data ? (
-        <p>{data.response}</p>
+        data.outputs.map((output, index) => <p key={index} font="12px">{output}</p>)
       ) : (
-        <p>Loading...</p> // Display loading while data is being fetched
+        <p>Loading...</p>
       )}
     </div>
   );
