@@ -1,0 +1,115 @@
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: 1fr 1fr; 
+    gap: 10px; 
+    padding: 0; 
+    margin: 0 auto; 
+    width: 98%; 
+    height: 85vh; 
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+/* Remove extra space between the rows */
+.box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+nav {
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 123, 255, 0.8), /* Light blue with 80% opacity */
+        rgba(173, 216, 230, 0.8),
+        rgba(173, 216, 230, 0.8),
+        rgba(0, 123, 255, 0.8) /* Light sky blue with 80% opacity */
+    );
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow under the navbar */
+    padding: 10px 20px;
+    margin-bottom: 20px; /* Space between navbar and content */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners for a smoother design */
+    color: white; /* Ensure text is readable */
+}
+
+/* Body settings for removing additional space */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrollbars */
+}
+
+/* Reduce the space between rows and columns */
+.grid-container > * {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Styling for charts and sections inside boxes */
+.chart, .section, .exsion {
+    width: 100%;
+    height: 100%; /* Ensure the content fits the box */
+}
+
+/* Titles inside boxes */
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Subtitles inside sections */
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Single column layout for small screens */
+    }
+}
+
+
+/* Hover effect for boxes */
+.box:hover {
+    transform: translateY(-5px); /* Slight upward movement */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Styling for charts and sections inside boxes */
+.chart, .section, .exsion {
+    width: 100%;
+    height: 100%; /* Ensure the content fits the box */
+}
+
+/* Titles inside boxes */
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Subtitles inside sections */
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; 
+    }
+}
