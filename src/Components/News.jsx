@@ -1,39 +1,40 @@
+import React, { useState, useEffect } from "react";
+import debounce from "lodash.debounce";
 
-import React, {useState, useEffect} from 'react' 
-//import "./App.css";
+const News = () => {
+  // State to store the fetched data
+  const [data, setData] = useState(null); // Fetch the data from the Flask server
+  const [error, setError] = useState(null); // Add this state
 
-function News(){
-
-    const [data, setdata] = useState({
-        name:"",
-        age:0,
-        date:"",
-        programming: "",
-    });
-    useEffect(() => {
-        fetch("https://127.0.0.1:5000/company=meta").then((res) =>
-                res.json().then((data) => {
-                    setdata({
-                        name:data.Name, 
-                        age:data.Age,
-                        date: data.Date,
-                        programming: data.programming,
-                    });
-                })
-            );
-        }, []);
-
-        return(
-            <div className= "News">
-                <header className = "App-header">
-                    <h3> React and Flask</h3>
-                    <p>{data.name}</p>
-                    <p>{data.age}</p>
-                    <p>{data.date}</p>
-                    <p>{data.programming}</p>
-                </header>
-            </div>
-        );
-}
+  useEffect(() => {
+    const fetchData = debounce(async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:5000/?company=meta");
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const result = await res.json();
+        setData(result);
+        console.log("data is : ", result);
+      } catch (err) {
+        setError(err.message);
+        console.error("Fetch error:", err.message);
+      }
+    }, 300); // Debounce by 300ms
+  
+    fetchData();
+  
+    return () => fetchData.cancel(); // Cleanup on unmount
+  }, []);
+  return (
+    <div>
+      {data ? (
+        <p>{data.response}</p>
+      ) : (
+        <p>Loading...</p> // Display loading while data is being fetched
+      )}
+    </div>
+  );
+};
 
 export default News;

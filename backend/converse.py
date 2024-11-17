@@ -2,14 +2,16 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import serpNews
 import redditscraper
-import serpInterest
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
+
 @app.route('/')
 
 def model():
@@ -107,7 +109,26 @@ def model():
 
     # Return the outputs in a response-friendly format (if using Flask)
     return {"outputs": outputs}
+  
+    try:
+        streaming_response = client.converse_stream(
+            modelId=model_id,
+            messages=conversation,
+            inferenceConfig={"maxTokens": 512, "temperature": 0.5, "topP": 0.9},
+        )
 
+        # Extract and print the streamed response text in real-time.
+        output = ""
+        for chunk in streaming_response["stream"]:
+            if "contentBlockDelta" in chunk:
+                text = chunk["contentBlockDelta"]["delta"]["text"]
+                print(text, end="")
+                output += text
+        return jsonify({"response": output})
 
+    except (ClientError, Exception) as e:
+        print(f"ERROR: Can't invoke '{model_id}'. Reason: {e}")
+        exit(1)
+        
 if __name__ == "__main__":
-    model()
+    app.run(debug=True)
