@@ -4,6 +4,10 @@ import  HorizontalBarChart from './BarChart';
 import TextInput from './TextInput';
 import News from './News'; 
 import Box3 from './BoxThree';
+import Pop from './Popularity';
+import PieTwo from './PieTwo';
+import "./pageone.css";
+import News2 from './News2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 export function PageOne(){
@@ -25,19 +29,8 @@ export function PageOne(){
 
         <div className="box box3">
             <h2>Percentage of Positive/Neutral/Negative Social Media Coverage about Your Company</h2>
-
-            <div className="section">
-                <h3>News Articles on Google</h3>
-                <p>Positive: x% | Neutral: x% | Negative: x%</p>
-            </div>
-
-            <div className="section">
-                <h3>Posts on Reddit</h3>
-            </div>
-
-            <div className="section">
-                <h3>Posts on Twitter</h3>
-                <p>Positive: x% | Neutral: x% | Negative: x%</p>
+            <div className="chart">
+                <PieTwo />
             </div>
         </div>
 
@@ -54,15 +47,7 @@ export function PageOne(){
         
         <div className="box box6">
         <h2>Most Viral Posts about Company</h2>
-            <div className="exsion">
-                <h3>Twitter:</h3>
-                "blah blah etc. "
-            </div>
-
-            <div className="exsion">
-                <h3>Reddit:</h3>
-                blah blah blah etc.
-            </div>
+            <News2 />
         </div>
     </div>
     )

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 import { useUser } from './UserContext';
 
-const News = () => {
-  const { username } = useUser();
-  const [data6, setData6] = useState(null);
-  const [error, setError] = useState(null);
+const Feature = () => {
+    const { username } = useUser();
+    const [data7, setData7] = useState(null);
+    const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = debounce(async () => {
@@ -15,7 +15,7 @@ const News = () => {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const result = await res.json();
-        setData6(result.outputs[5]);
+        setData7(result.outputs[7]);
       } catch (err) {
         setError(err.message);
       }
@@ -27,10 +27,10 @@ const News = () => {
 
   return (
     <div>
-      {data6 ? <p style={{fontSize: '16px'}}>{data6}</p> : <p>Loading...</p>}
+      {data7 ? <p style={{fontSize: '16px'}}>{data7}</p> : <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
     </div>
   );
 };
 
-export default News;
+export default Feature;
