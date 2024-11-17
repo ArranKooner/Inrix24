@@ -19,51 +19,49 @@ body {
 
 /* Navbar styling */
 nav {
-  background-color: #7ba4e0; /* Light blue background */
-  padding: 20px 50px; /* Reduced top/bottom padding and increased left/right padding */
+  background-color: #7ba4e0; /* Updated light blue */
+  padding: 10px 30px; /* Reduced top/bottom padding for a thinner look */
   position: sticky; /* Make navbar sticky */
   top: 0;
   left: 0;
   right: 0;
   width: 100%; /* Full width */
   z-index: 1000; /* Ensure navbar stays on top */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation effect */
-  border-radius: 10px; /* Optional: Rounded corners for a softer look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation effect */
 }
 
-/* Styling for the navbar links container */
+/* Navbar links */
 nav ul {
-  list-style: none; /* Remove default list styling */
+  list-style: none;
   margin: 0;
   padding: 0;
-  display: flex; /* Flexbox for horizontal layout */
-  justify-content: center; /* Center the links */
-  align-items: left; /* Ensure the links are centered vertically */
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Spacing between links */
 }
 
-/* Styling for each list item */
-nav ul li {
-  margin-right: 30px; /* Increased space between links */
-}
-
-/* Styling for navbar links */
 nav ul li a {
-  color: white; /* White text */
+  color: white; /* White text for contrast */
   text-decoration: none; /* Remove underlines */
-  font-size: 30px; /* Font size */
-  padding: 12px 25px; /* More padding for better spacing */
-  display: inline-block; /* Make links behave like block elements */
-  border-radius: 5px; /* Rounded corners for links */
-  transition: all 0.3s ease; /* Smooth transition for hover and active states */
+  font-size: 18px; /* Slightly smaller font size */
+  padding: 8px 15px; /* Reduced padding */
+  display: inline-block;
+  border-radius: 4px;
+  transition: background-color 0.3s, transform 0.2s; /* Smooth hover effects */
 }
 
-/* Hover effect for links */
 nav ul li a:hover {
-  background-color: #4781d8; /* Change background color on hover */
-  color: #fff; /* Ensure the text color stays white on hover */
-  transform: scale(1.05); /* Slight zoom effect for a modern feel */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+  background-color: #5a89c5; /* Darker shade of blue on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column; /* Stack links vertically */
+    gap: 10px;
+  }
+}
+
 
 /* Active link styling */
 nav ul li a.active {

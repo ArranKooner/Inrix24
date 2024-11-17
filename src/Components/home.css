@@ -10,7 +10,7 @@
   height: 100vh;
   text-align: center;
   gap: 20px;
-  background: linear-gradient(135deg, #f9c492, #5b86dd); /* Example: Blue to Gold gradient */
+  background: linear-gradient(135deg, #fab97b, #5b86dd); /* Example: Blue to Gold gradient */
   color: white; /* Ensure text contrasts with background */
 }
 

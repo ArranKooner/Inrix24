@@ -1,4 +1,8 @@
 /* Grid layout for team members */
+body{
+    background: linear-gradient(135deg,#5b86dd, #fab97b);
+}
+
 .team-container {
     display: grid; /* Use grid layout */
     grid-template-columns: repeat(3, 1fr); /* Create 3 equal columns */

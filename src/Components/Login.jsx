@@ -23,24 +23,26 @@ function Login() {
     }
 
     setError("");
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Start submitting
 
     try {
+      // Send the company name to the backend
       const response = await fetch(`http://127.0.0.1:5000?company=${username}`, {
         method: "GET",
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch from backend");
+        throw new Error(`Failed to fetch from backend. Status: ${response.status}`);
       }
 
       const result = await response.json();
       console.log("Backend response:", result);
 
+      // Proceed to the next page with the response (optional)
       setIsExiting(true); // Trigger slide-right animation
       setTimeout(() => {
         setIsSubmitting(false);
-        navigate("/pageone");
+        navigate("/pageone", { state: { data: result } }); // Pass data to PageOne
       }, 500);
     } catch (err) {
       console.error("Error communicating with the backend:", err);
@@ -51,34 +53,48 @@ function Login() {
 
   return (
     <div className={`login-container ${isExiting ? "slide-right" : ""}`}>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Company"
-            disabled={isSubmitting} // Disable input while submitting
-          />
+      {isSubmitting ? (
+        <div className="loading-container">
+          <p className="loading-text">
+            Turning customer insights into actionable strategies
+            <span className="inline-dots">
+              <span className="dot"></span>
+              <span className="dot"></span>
+              <span className="dot"></span>
+            </span>
+          </p>
+
         </div>
-        <div className="form-group">
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Password"
-            disabled={isSubmitting} // Disable input while submitting
-          />
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        <button
-          type="submit"
-          className="login-button"
-          disabled={isSubmitting} // Disable button while submitting
-        >
-          {isSubmitting ? "Submitting..." : "Analyze"}
-        </button>
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <input
+              type="text"
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Company"
+              disabled={isSubmitting} // Disable input while submitting
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Password"
+              disabled={isSubmitting} // Disable input while submitting
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <button
+            type="submit"
+            className="login-button"
+            disabled={isSubmitting} // Disable button while submitting
+          >
+            {isSubmitting ? "Turning customer insights into actionable strategies...." : "Analyze"}
+          </button>
+        </form>
+      )}
     </div>
   );
 }

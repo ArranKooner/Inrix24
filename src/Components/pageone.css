@@ -24,20 +24,52 @@ grid-container {
     align-items: center;
 }
 
+/* Navbar styling */
 nav {
-    background: linear-gradient(
-        135deg, 
-        rgba(0, 123, 255, 0.8), /* Light blue with 80% opacity */
-        rgba(173, 216, 230, 0.8),
-        rgba(173, 216, 230, 0.8),
-        rgba(0, 123, 255, 0.8) /* Light sky blue with 80% opacity */
-    );
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow under the navbar */
+    background-color: #7ba4e0; /* Light blue background */
     padding: 10px 20px;
-    margin-bottom: 20px; /* Space between navbar and content */
-    border-radius: 0 0 10px 10px; /* Rounded bottom corners for a smoother design */
-    color: white; /* Ensure text is readable */
-}
+    position: sticky; /* Make navbar sticky */
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure navbar stays on top */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation effect */
+    border-radius: 0; /* Removed rounded edges for a cleaner look */
+  }
+  
+  /* Navbar links container */
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Flexbox for horizontal layout */
+    justify-content: center; /* Center the links */
+    align-items: center; /* Center links vertically */
+  }
+  
+  /* Navbar links */
+  nav ul li {
+    margin: 0 15px; /* Spacing between links */
+  }
+  
+  nav ul li a {
+    color: white; /* Default text color */
+    text-decoration: none; /* Remove underline */
+    font-size: 1.5rem; /* Adjust font size */
+    padding: 10px 20px; /* Add padding for better spacing */
+    border-radius: 5px; /* Add rounded corners for a softer look */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Hover effect for navbar links */
+  nav ul li a:hover {
+    background-color: #edc9a7; /* Orange-golden shade */
+    color: white; /* White text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow effect */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
 
 /* Body settings for removing additional space */
 body {
