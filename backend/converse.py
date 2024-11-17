@@ -3,18 +3,31 @@ from botocore.exceptions import ClientError
 import os
 from dotenv import load_dotenv
 from flask import Flask, request
+import json
+import logging
 import serpNews
 import redditscraper
 import serpInterest
+import serpCompare
 
 load_dotenv()
+
+def rank_us_companies(comp_data):
+    us_data = next((entry for entry in comp_data if entry["geo"] == "US"), None)
+    
+    if not us_data:
+        return "No data found for the United States."
+
+    ranked_companies = sorted(us_data["values"], key=lambda x: x["extracted_value"], reverse=True)
+    
+    ranked_company_names = [company["query"] for company in ranked_companies]
+    
+    return ranked_company_names
 
 app = Flask(__name__)
 @app.route('/')
 
 def model():
-    import json
-    import logging
 
     # Enable logging only for debug mode
     debug_mode = False
@@ -22,24 +35,60 @@ def model():
     # Load AWS credentials
     access_key_id = os.getenv("AWS_ACCESS_KEY")
     secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-
+    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+    #model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     bucket_name = "webscraping-data-2024"
     s3 = boto3.client(
         "s3", aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key
     )
-
-    # Get company from request arguments
+    #get the competitors
     company = request.args.get('company', 'netflix')
+    # Initialize Bedrock client
+    client = boto3.client(
+        service_name="bedrock-runtime",
+        aws_access_key_id=access_key_id,
+        aws_secret_access_key=secret_access_key,
+        region_name="us-west-2",
+    )
 
+    user_message = "give me the top 5 competitors of this provided company. But format it with no spaces so its company,competitor1,competitor2,competittor3 " + company
+    conversation = [
+    {
+        "role": "user",
+        "content": [{"text": user_message}],
+    }
+    ]
+
+    try:
+        streaming_response = client.converse_stream(
+            modelId=model_id,
+            messages=conversation,
+            inferenceConfig={"maxTokens": 512, "temperature": 0.5, "topP": 0.9},
+        )
+
+        # Extract and print the streamed response text in real-time.
+        company_competitors = ""
+        for chunk in streaming_response["stream"]:
+            if "contentBlockDelta" in chunk:
+                text = chunk["contentBlockDelta"]["delta"]["text"]
+                company_competitors+=text
+
+    except (ClientError, Exception) as e:
+        print(f"ERROR: Can't invoke '{model_id}'. Reason: {e}")
+        exit(1)
+    print("the company string "+company_competitors)
+    # Get company from request arguments
     # Calls the web scrapers
     serpNews.news(company)
     redditscraper.redditscraper(company)
     serpInterest.serpInterest(company)
+    serpCompare.serpCompare(company_competitors)
 
     # S3 keys
     raw_data_key = f"{company}/raw-data/2024-11-17.json"
     processed_data_key = f"{company}/processed-data/2024-11-17/{company}.json"
     top_locs_data_key = f"{company}/raw-data/2024-11-17.json"
+    comp_data_key=f"{company_competitors}/raw-data/2024-11-17.json"
 
     def fetch_data(key):
         """Fetch data from S3 and return content."""
@@ -58,21 +107,32 @@ def model():
     raw_data = fetch_data(raw_data_key)
     processed_data = fetch_data(processed_data_key)
     tops_locs_data = fetch_data(top_locs_data_key)
+    comps_data = fetch_data(comp_data_key)
 
-    # Initialize Bedrock client
-    client = boto3.client(
-        service_name="bedrock-runtime",
-        aws_access_key_id=access_key_id,
-        aws_secret_access_key=secret_access_key,
-        region_name="us-west-2",
-    )
+    ranked_companies_us = rank_us_companies(comps_data)
+    print("Ranked Companies in the United States:", ranked_companies_us)
 
-    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+    # Sort the data by 'extracted_value' in descending order
+    sorted_data = sorted(tops_locs_data, key=lambda x: x["extracted_value"], reverse=True)
+
+    # Get the top 5 states
+    top_five = sorted_data[:5]
+
+    # Get the lowest 3 states
+    lowest_three = sorted_data[-3:]
+
+    # Extract values and states for top five and lowest three
+    top_five_states = [(entry["location"], entry["extracted_value"]) for entry in top_five]
+    lowest_three_states = [(entry["location"], entry["extracted_value"]) for entry in lowest_three]
+
+    # Output the results
+    print("Top Five States:", top_five_states)
+    print("Lowest Three States:", lowest_three_states)
+
     prompts = [
-        f"Analyze the public sentiment about {company}'s latest product based on this data: {raw_data}",
+        f"Approximate the percent of neutral, positive, and negative feedback from this data. Give three percentages that total to 100: {raw_data}",
         f"Summarize the top three concerns about {company} from the provided data: {processed_data}",
         f"Identify the most viral news and Reddit posts about {company} and their impact: {raw_data + processed_data}",
-        f"Output the five states where it's most popular and the three where it's not from this data: {tops_locs_data}",
     ]
 
     outputs = []
@@ -82,7 +142,7 @@ def model():
             streaming_response = client.converse_stream(
                 modelId=model_id,
                 messages=conversation,
-                inferenceConfig={"maxTokens": 512, "temperature": 0.5, "topP": 0.9},
+                inferenceConfig={"maxTokens": 256, "temperature": 0.5, "topP": 0.9},
             )
 
             output = ""
@@ -96,11 +156,6 @@ def model():
                 logging.error(f"ERROR: Can't invoke '{model_id}' for prompt '{prompt}'. Reason: {e}")
             outputs.append(f"Error for prompt: {prompt}")
 
-    # for i, output in enumerate(outputs):
-    #     if debug_mode:
-    #         print(f"Response {i + 1}:\n{output}\n")
-    # return outputs
-    # Print final outputs to the console
     for i, output in enumerate(outputs):
         print(f"\n==== Response {i + 1} ====")
         print(output)
