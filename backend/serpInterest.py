@@ -103,8 +103,8 @@ def serpInterest(inp):
             return 1
 
     # Create a new array with categories that rank the search frequency
-    output_data_cat = [{"State": item["location"], "Score": item["extracted_value"], "Category": categorize(item["extracted_value"])} for item in temp]
-    output_json_cat = json.dumps(output_data_cat, indent=4)
+    #output_data_cat = [{"State": item["location"], "Score": item["extracted_value"], "Category": categorize(item["extracted_value"])} for item in temp]
+    #output_json_cat = json.dumps(output_data_cat, indent=4)
 
 if __name__ == "__main__":
     serpInterest("hi")
