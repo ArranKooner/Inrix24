@@ -1,0 +1,94 @@
+/* Grid layout for team members */
+.team-container {
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(3, 1fr); /* Create 3 equal columns */
+    grid-gap: 20px; /* Space between the items (increased for better spacing) */
+    justify-items: center; /* Centers the items horizontally */
+    align-items: center; /* Centers the items vertically */
+}
+
+/* Styling for each team member */
+.team-member {
+    text-align: center; /* Center the text below each image */
+    max-width: 200px; /* Limit the width of each team member's block */
+}
+
+/* Styling for the images */
+.image-style {
+    width: 200px; /* Increased size of the images */
+    height: 200px; /* Ensure images are square and bigger */
+    object-fit: cover; /* Crop the image to fit the circle */
+    border-radius: 50%; /* Make the images round */
+    margin-bottom: 15px; /* Increased space between image and text */
+}
+
+/* Styling for the team member's name */
+.team-member p {
+    font-size: 16px; /* Set the font size */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Set the text color to a dark gray */
+    margin-top: 8px; /* Add some space between the image and the name */
+    text-align: center; /* Ensure the name is centered below the image */
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: 0; /* Remove left margin to avoid unnecessary space */
+}
+
+/* Styling for the page header */
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+    color: #1a486e; /* Set text color */
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+/* Media Query for Small Screens (Responsive Design) */
+@media (max-width: 768px) {
+    .team-container {
+        grid-template-columns: 1fr; /* Stack items vertically on smaller screens */
+    }
+
+    .image-style {
+        width: 150px; /* Make the images smaller for smaller screens */
+        height: 150px; /* Ensure the images are still square */
+    }
+
+    .team-member p {
+        font-size: 14px; /* Slightly smaller font size on mobile */
+        margin-top: 5px; /* Reduce space between image and name */
+    }
+}
+
+.typing {
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for realistic typing effect */
+    font-size: 40px; /* Adjust the font size as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    border-right: 2px solid black; /* Cursor effect */
+    width: 0; /* Start with no visible text */
+    animation: typing 4s steps(40) 1s 1 normal both, blink 0.75s step-end infinite; /* Typing animation */
+    margin-top: 50px; 
+    margin-bottom: 50px;
+}
+
+/* Keyframes for typing effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Keyframes for blinking cursor effect */
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* After typing is finished, the cursor will disappear */
+.typing-complete {
+    animation: none; /* Stop the animation */
+    border-right: none; /* Remove the cursor */
+}

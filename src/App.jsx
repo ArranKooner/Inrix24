@@ -14,8 +14,8 @@ function App() {
           {/* Navigation Bar */}
           <nav>
             <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/pagetwo">About</Link></li>
+              <li><Link to="/" className="nav-link">Home</Link></li>
+              <li><Link to="/pagetwo" className="nav-link">About</Link></li>
             </ul>
           </nav>
           {/* Routes */}

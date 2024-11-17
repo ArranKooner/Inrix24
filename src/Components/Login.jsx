@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
+import '../Components/Login.css'
 
 function Login() {
   const [password, setPassword] = useState('');
@@ -35,7 +36,7 @@ function Login() {
             type="text"
             value={username}
             onChange={handleUsernameChange}
-            placeholder="Username"
+            placeholder="Company"
           />
         </div>
         <div className="form-group">
@@ -46,6 +47,9 @@ function Login() {
             placeholder="Password"
           />
         </div>
+        <p></p>
+        
+
         {error && <p className="error-message">{error}</p>}
         <button type="submit" className="login-button">
           Analyze
