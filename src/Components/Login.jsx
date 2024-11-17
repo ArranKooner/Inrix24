@@ -15,9 +15,10 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setError('Username and password cannot be empty.');
-      return;
+
+    // Simple validation (e.g., username and password are not empty)
+    if (username === '' ) {
+      setError('Company cannot be empty.');
     }
     if (password === 'password') {
       setError('');
