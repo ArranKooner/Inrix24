@@ -1,49 +1,33 @@
-import { useState } from 'react'
-import './App.css'
-import {  Button  } from './Components/Button'
-import TextInput from './Components/TextInput'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { UserProvider } from './Components/UserContext';
+import './App.css';
 
-import Home from './Components/home'
-import PageOne from './Components/pageone'
-import PageTwo from './Components/pagetwo'
-
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import Home from './Components/home';
+import PageOne from './Components/pageone';
+import PageTwo from './Components/pagetwo';
 
 function App() {
   return (
-    <Router>
-      <div>
-        {/* Navigation Bar */}
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/pagetwo">About</Link></li>
-          </ul>
-        </nav>
-        {/* Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/pageone" element={<PageOne />} />
-          <Route path="/pagetwo" element={<PageTwo />} />
-        </Routes>
-      </div>
-    </Router>
+    <UserProvider>
+      <Router>
+        <div>
+          {/* Navigation Bar */}
+          <nav>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/pagetwo">About</Link></li>
+            </ul>
+          </nav>
+          {/* Routes */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/pageone" element={<PageOne />} />
+            <Route path="/pagetwo" element={<PageTwo />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
+
 export default App;
-
-
-
-
-
-{/* 
-    <>
-      <Textbox/>
-      <Button text={"Analyze"} color={"#ADD8E6"}/>
-      <TextInput/>
-    </>
-  )
-}
-
-export default App
-*/}
