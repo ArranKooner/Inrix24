@@ -37,9 +37,9 @@ def model():
     serpInterest.serpInterest(company)
 
     # S3 keys
-    raw_data_key = f"{company}/raw-data/2024-11-16.json"
-    processed_data_key = f"{company}/processed-data/2024-11-16/{company}.json"
-    top_locs_data_key = f"{company}/raw-data/2024-11-16.json"
+    raw_data_key = f"{company}/raw-data/2024-11-17.json"
+    processed_data_key = f"{company}/processed-data/2024-11-17/{company}.json"
+    top_locs_data_key = f"{company}/raw-data/2024-11-17.json"
 
     def fetch_data(key):
         """Fetch data from S3 and return content."""
@@ -47,7 +47,7 @@ def model():
             s3_object = s3.get_object(Bucket=bucket_name, Key=key)
             data = s3_object['Body'].read().decode('utf-8')
             if debug_mode:
-                logging.info(f"Fetched data for key {key}: {data[:200]}...")  # Log first 200 chars
+                logging.info(f"Fetched data for key {key}")  # Log first 200 chars
             return json.loads(data)
         except ClientError as e:
             if debug_mode:
