@@ -1,22 +1,45 @@
 import React from 'react'
+import { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
+import '../Components/home.css'
+import Login from './Login'
+
+
 export function Home() {
     const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [selectedPage, setSelectedPage] = useState('');
 
     const handleGoToPageOne = () => {
       navigate('/PageOne');  // Navigate to PageOne
     };
-    const handleGoToPageTwo = () => {
-      navigate('/PageTwo');  // Navigate to PageTwo
-    };
 
+    const handleDropdownChange = (event) => {
+      const selectedValue = event.target.value;
+      setSelectedPage(selectedValue);
+  
+      if (selectedValue === 'PageOne') {
+        navigate('/PageOne');
+      } else if (selectedValue === 'PageTwo') {
+        navigate('/PageTwo');
+      }
+    };
+  
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+  
 
     return (
     <div>
-        <h1>Home Page</h1>
-        <button onClick={handleGoToPageOne}>Go to Page One</button>
-        <button onClick={handleGoToPageTwo}>Go to Page Two</button>
-        </div>
+        <img src="/realogo2.jpg" alt="Real" className="logo" />
+
+        <p></p>
+        <Login />
+        <p></p>
+
+    </div>
     );
 }
+
 export default Home

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import {  Button  } from './Components/Button'
-import { Textbox } from './Components/Textbox'
 import TextInput from './Components/TextInput'
 
 import Home from './Components/home'
@@ -18,8 +17,7 @@ function App() {
         <nav>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/pageone">Page One</Link></li>
-            <li><Link to="/pagetwo">Page Two</Link></li>
+            <li><Link to="/pagetwo">About</Link></li>
           </ul>
         </nav>
         {/* Routes */}

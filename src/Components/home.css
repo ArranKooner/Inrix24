@@ -1,0 +1,60 @@
+.logo {
+    margin-top: 80px;
+    margin-bottom: 100px;
+    max-width: 400px; /* Limit the width of the image */
+    height: auto; /* Maintain the aspect ratio */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 20px; /* Add space below the image */
+}
+
+/* Style for the dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+  /* Style for the dropdown button */
+.dropdown-toggle {
+    padding: 10px;
+    background-color: #7ba4e0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+    text-align: left;
+}
+
+  /* Dropdown menu style */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 5px 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+  /* Style for each dropdown item */
+.dropdown-menu li {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+  /* Hover effect for dropdown items */
+.dropdown-menu li:hover {
+    background-color: #ddd;
+}
+
+p {
+    font-family: Arial, sans-serif; /* Set the font */
+    font-size: 30px; /* Set the font size */
+    line-height: 1.6; /* Set line height for better readability */
+    color: #333; /* Set text color */
+    margin: 10px 0; /* Set margin to add space above and below paragraphs */
+    text-align: center; /* Align text to the left (can also be center or right) */
+}  
