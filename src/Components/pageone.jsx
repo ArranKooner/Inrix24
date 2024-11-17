@@ -53,12 +53,12 @@ export function PageOne(){
         
         <div className="box box6">
         <h2>Most Viral Posts about Company</h2>
-            <div className="section">
+            <div className="exsion">
                 <h3>Twitter:</h3>
                 "blah blah etc. "
             </div>
 
-            <div className="section">
+            <div className="exsion">
                 <h3>Reddit:</h3>
                 blah blah blah etc.
             </div>
