@@ -14,7 +14,6 @@ function TextInput (){
                 onChange={handleInputChange}
                 placeholder="Enter some text"
             />
-            <p>You entered: {inputValue}</p>
         </div>
         );
     }

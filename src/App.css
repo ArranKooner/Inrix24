@@ -1,46 +1,62 @@
 #root {
+
   width: 100vw;          /* Make sure it takes the full viewport width */
   height: 100vh;         /* Ensure it takes the full viewport height */
   margin: 0;
   padding: 2rem;
+
   text-align: center;
+  top:0;
+  width: 100%;
+  height: 100vh; /* Ensure full viewport height */
+  display: flex; /* Use flexbox to center content */
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start; /* Align content to the top */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* General styling for the page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Styling for the navigation bar */
+nav {
+  background-color: #7ba4e0; /* Dark background color */
+  padding: 10px;
+  top: 0; 
+  right: 0;
+  left:0;
+  position: sticky;
+  width: 100%;
+  z-index: 1000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Styling for the unordered list inside the navbar */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex; /* Use flexbox to arrange list items horizontally */
+  justify-content: center; /* Center the items */
 }
 
-.card {
-  padding: 2em;
+/* Styling for each list item */
+nav ul li {
+  margin-right: 20px;
 }
 
-.read-the-docs {
-  color: #888;
+/* Styling for links inside the navbar */
+nav ul li a {
+  color: white; /* White text color */
+  text-decoration: none; /* Remove underline from links */
+  font-size: 18px;
+  padding: 10px 15px;
+  display: inline-block; /* Make the link behave like a block element */
+  transition: background-color 0.3s ease; /* Smooth background change */
 }
+
 
 html, body {
   height: 100%; /* Ensure the body takes up the full viewport height */
@@ -112,4 +128,5 @@ html, body {
     grid-template-columns: 1fr;   /* Stack boxes in one column */
     grid-template-rows: repeat(6, 1fr); /* Create 6 equal-height rows */
   }
+
 }
