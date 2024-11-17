@@ -8,13 +8,13 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export function HorizontalBarChart() {
   // Data for the chart
     const data = {
-        labels: ['State1', 'State2', 'State3', 'State4', 'State5'], // Labels on the Y-axis
+        labels: ['State1', 'State2', 'State3', 'State4', 'State5', 'State6', 'State7', 'State8'], // Labels on the Y-axis
         datasets: [
             {
                 label: 'Most Searched in States',
-                data: [12, 19, 3, 5, 12], // Values for each bar
-                backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple'], // Bar colors
-                borderColor: ['black', 'black', 'black', 'black', 'black'], // Bar border colors
+                data: [12, 19, 3, 5, 12, 5, 5, 5], // Values for each bar
+                backgroundColor: ['#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ea9999', '#ea9999', '#ea9999'], // Bar colors
+                borderColor: ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'], // Bar border colors
                 borderWidth: 1,
             },
             ],

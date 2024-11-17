@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, request
 import serpNews
+import redditscraper
 
 load_dotenv()
 
@@ -35,15 +36,20 @@ def model():
         company = request.args['company']
     else:
         company = 'netflix'  
+    
+    # calls the web scrapers
     serpNews.news(company)
+    redditscraper.redditscraper(company)
     
     # Path of the file in S3
-    object_key = "processed-data/reddit/"+company+"_threads.json"
+    # getting the data from the scrapers
+
+    #getting the news articles
     object_key = company+"/raw-data/2024-11-16.json"
-    # local_file_path = "./someFile.txt"
+    local_file_path = "./someFile.txt"
 
     # # Download the object from S3
-    # s3.download_file(bucket_name, object_key, local_file_path)
+    s3.download_file(bucket_name, object_key, local_file_path)
     # with open('./someFile.txt', 'r') as file:
     #     data = file.read()
     #     print(data)
@@ -58,12 +64,24 @@ def model():
         aws_secret_access_key=secret_access_key,
         region_name="us-west-2",
     )
+    object_key = company+"/processed-data/2024-11-16.json"
+    object_key = company+"/processed-data/2024-11-16/"+company+".json"
+    local_file_path = "./someFile2.txt"
+
+    # # Download the object from S3
+    s3.download_file(bucket_name, object_key, local_file_path)
+    # with open('./someFile.txt', 'r') as file:
+    #     data = file.read()
+    #     print(data)
+
+    s3_object = s3.get_object(Bucket=bucket_name, Key=object_key)
+    data += s3_object['Body'].read().decode('utf-8')
 
     # The model ID for the model you want to use
     model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
 
     # The message you want to send to the model
-    user_message = "read this data and give me feedback for this"+company+"'s business model based on the tweets provided. give specific points that customers bring up. Also if any competitors are named, state them. :" + data
+    user_message = "read this data and give me feedback for this"+company+"'s business model based on the data provided. give specific points that customers bring up. Also if any competitors are named, state them. :" + data
 
     conversation = [
         {
