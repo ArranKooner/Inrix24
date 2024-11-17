@@ -1,6 +1,7 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100vw;          /* Make sure it takes the full viewport width */
+  height: 100vh;         /* Ensure it takes the full viewport height */
+  margin: 0;
   padding: 2rem;
   text-align: center;
 }
@@ -39,4 +40,76 @@
 
 .read-the-docs {
   color: #888;
+}
+
+html, body {
+  height: 100%; /* Ensure the body takes up the full viewport height */
+  margin: 0;    /* Remove any default margin */
+}
+
+.chart {
+  flex: 1;
+  width: 100%;        /* Make the chart fill the width of the box */
+  display: block;     /* Make it a block-level element */
+  overflow: hidden;   /* Prevent overflow if the chart exceeds the box */
+}
+
+.grid-container {
+  display: grid;               /* Enable grid layout */
+  grid-template-columns: repeat(3, 1fr);  /* Create 3 equal-width columns */
+  grid-template-rows: 50vh 50vh; /*: repeat(2, 1fr);      Create 2 equal-height rows */
+  gap: 0;                       /* Remove space between boxes (optional) */
+  width: 100vw;                 /* Ensure the grid takes the full width of the viewport */
+  height: 100vh;                /* Ensure the grid takes the full height of the viewport */
+}
+
+/*
+.box {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  display: flex;                
+  justify-content: center;      
+  align-items: center;          
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  position: relative;   
+}
+*/
+.box {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;               /* Stack header and chart vertically */
+  justify-content: space-between;       /* Space between header and chart */
+  align-items: center;                  /* Center content horizontally */
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  position: relative;
+  overflow: hidden;                     /* Prevent content from overflowing */
+  height: 100%;                          /* Take up the full height of the grid cell */
+}
+
+.box h2 {
+  font-size: 20px;
+  margin: 0;                             /* Remove default margin */
+  padding: 10px 0;                       /* Some padding to space out the header */
+  text-align: center;
+}
+
+/* Optional: Add different background colors to each box for better visual separation */
+.box1 { background-color: #e1f7d5; }
+.box2 { background-color: #f5e1e1; }
+.box3 { background-color: #e1e1f7; }
+.box4 { background-color: #f7e1f1; }
+.box5 { background-color: #e1f5f7; }
+.box6 { background-color: #f5f1e1; }
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;   /* Stack boxes in one column */
+    grid-template-rows: repeat(6, 1fr); /* Create 6 equal-height rows */
+  }
 }
