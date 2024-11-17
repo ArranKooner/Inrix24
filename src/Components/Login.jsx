@@ -26,8 +26,8 @@ const navigate = useNavigate();
     e.preventDefault();
 
     // Simple validation (e.g., username and password are not empty)
-    if (username === '' || password === '') {
-      setError('Username and password cannot be empty.');
+    if (username === '' ) {
+      setError('Company cannot be empty.');
       return;
     }
 
