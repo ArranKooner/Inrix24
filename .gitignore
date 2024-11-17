@@ -136,3 +136,4 @@ dist-ssr
 *.sw?
 
 .DS_Store
+.env
