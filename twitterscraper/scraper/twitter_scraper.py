@@ -100,10 +100,6 @@ class Twitter_Scraper:
         self.progress = Progress(0, max_tweets)
         self.scraper_details = {
             "type": None,
-            #"username": scrape_username,
-            #"hashtag": str(scrape_hashtag).replace("#", "")
-            #if scrape_hashtag is not None
-            #else None,
             "query": scrape_query,
             "tab": "Latest" if scrape_latest else "Top" if scrape_top else "Latest",
             "poster_details": scrape_poster_details,
@@ -111,18 +107,10 @@ class Twitter_Scraper:
         self.router = self.go_to_home
         self.scroller = Scroller(self.driver)
 
-        #if scrape_username is not None:
-        #    self.scraper_details["type"] = "Username"
-        #    self.router = self.go_to_profile
-        #elif scrape_hashtag is not None:
-        #    self.scraper_details["type"] = "Hashtag"
-        #    self.router = self.go_to_hashtag
         if scrape_query is not None:
             self.scraper_details["type"] = "Query"
             self.router = self.go_to_search
-        #else:
-        #    self.scraper_details["type"] = "Home"
-        #    self.router = self.go_to_home
+
         pass
 
     def _get_driver(
@@ -145,14 +133,9 @@ class Twitter_Scraper:
         if proxy is not None:
             browser_option.add_argument("--proxy-server=%s" % proxy)
 
-        # For Hiding Browser
         browser_option.add_argument("--headless")
 
         try:
-            # print("Initializing ChromeDriver...")
-            # driver = webdriver.Chrome(
-            #     options=browser_option,
-            # )
 
             print("Initializing FirefoxDriver...")
             driver = webdriver.Firefox(
@@ -163,19 +146,10 @@ class Twitter_Scraper:
             return driver
         except WebDriverException:
             try:
-                # print("Downloading ChromeDriver...")
-                # chromedriver_path = ChromeDriverManager().install()
-                # chrome_service = ChromeService(executable_path=chromedriver_path)
 
                 print("Downloading FirefoxDriver...")
                 firefoxdriver_path = GeckoDriverManager().install()
                 firefox_service = FirefoxService(executable_path=firefoxdriver_path)
-
-                # print("Initializing ChromeDriver...")
-                # driver = webdriver.Chrome(
-                #     service=chrome_service,
-                #     options=browser_option,
-                # )
 
                 print("Initializing FirefoxDriver...")
                 driver = webdriver.Firefox(
@@ -197,7 +171,7 @@ class Twitter_Scraper:
         try:
             self.driver.maximize_window()
             self.driver.get(TWITTER_LOGIN_URL)
-            sleep(3)
+            sleep(0.3)
 
             self._input_username()
             self._input_unusual_activity()
@@ -243,7 +217,7 @@ class Twitter_Scraper:
 
                 username.send_keys(self.username)
                 username.send_keys(Keys.RETURN)
-                sleep(3)
+                sleep(1)
                 break
             except NoSuchElementException:
                 input_attempt += 1
@@ -261,7 +235,7 @@ It may be due to the following:
                     sys.exit(1)
                 else:
                     print("Re-attempting to input username...")
-                    sleep(2)
+                    sleep(1)
 
     def _input_unusual_activity(self):
         input_attempt = 0
@@ -273,7 +247,7 @@ It may be due to the following:
                 )
                 unusual_activity.send_keys(self.username)
                 unusual_activity.send_keys(Keys.RETURN)
-                sleep(3)
+                sleep(0.5)
                 break
             except NoSuchElementException:
                 input_attempt += 1
@@ -291,7 +265,7 @@ It may be due to the following:
 
                 password.send_keys(self.password)
                 password.send_keys(Keys.RETURN)
-                sleep(3)
+                sleep(1)
                 break
             except NoSuchElementException:
                 input_attempt += 1
@@ -309,41 +283,13 @@ It may be due to the following:
                     sys.exit(1)
                 else:
                     print("Re-attempting to input password...")
-                    sleep(2)
+                    sleep(1)
 
     def go_to_home(self):
         self.driver.get("https://twitter.com/home")
-        sleep(3)
+        sleep(0.5)
         pass
-
-    '''def go_to_profile(self):
-        if (
-            self.scraper_details["username"] is None
-            or self.scraper_details["username"] == ""
-        ):
-            print("Username is not set.")
-            sys.exit(1)
-        else:
-            self.driver.get(f"https://twitter.com/{self.scraper_details['username']}")
-            sleep(3)
-        pass'''
-
-    '''def go_to_hashtag(self):
-        if (
-            self.scraper_details["hashtag"] is None
-            or self.scraper_details["hashtag"] == ""
-        ):
-            print("Hashtag is not set.")
-            sys.exit(1)
-        else:
-            url = f"https://twitter.com/hashtag/{self.scraper_details['hashtag']}?src=hashtag_click"
-            if self.scraper_details["tab"] == "Latest":
-                url += "&f=live"
-
-            self.driver.get(url)
-            sleep(3)
-        pass'''
-
+    
     def go_to_search(self):
         if self.scraper_details["query"] is None or self.scraper_details["query"] == "":
             print("Query is not set.")
@@ -354,7 +300,7 @@ It may be due to the following:
                 url += "&f=live"
 
             self.driver.get(url)
-            sleep(3)
+            sleep(0.5)
         pass
 
     def get_tweet_cards(self):
@@ -381,8 +327,6 @@ It may be due to the following:
         self,
         max_tweets=5,
         no_tweets_limit=False,
-        #scrape_username=None,
-        #scrape_hashtag=None,
         scrape_query=None,
         scrape_latest=True,
         scrape_top=False,
@@ -391,8 +335,6 @@ It may be due to the following:
     ):
         self._config_scraper(
             max_tweets,
-            #scrape_username,
-            #scrape_hashtag,
             scrape_query,
             scrape_latest,
             scrape_top,
@@ -404,16 +346,6 @@ It may be due to the following:
 
         router()
 
-        #if self.scraper_details["type"] == "Username":
-        #    print(
-        #        "Scraping Tweets from @{}...".format(self.scraper_details["username"])
-        #    )
-        #elif self.scraper_details["type"] == "Hashtag":
-        #    print(
-        #        "Scraping {} Tweets from #{}...".format(
-        #            self.scraper_details["tab"], self.scraper_details["hashtag"]
-        #        )
-        #    )
         if self.scraper_details["type"] == "Query":
             print(
                 "Scraping {} Tweets from {} search...".format(
@@ -495,10 +427,11 @@ It may be due to the following:
                             retry_button = self.driver.find_element(
                             "xpath", "//span[text()='Retry']/../../..")
                             self.progress.print_progress(len(self.data), True, retry_cnt, no_tweets_limit)
-                            sleep(58)
+                                #ARRAN might need to make longer sleep
+                            sleep(2)
                             retry_button.click()
                             retry_cnt += 1
-                            sleep(2)
+                            sleep(1)
                     # There is no Retry button so the counter is reseted
                     except NoSuchElementException:
                         retry_cnt = 0
@@ -511,12 +444,12 @@ It may be due to the following:
                             break
                         refresh_count += 1
                     empty_count += 1
-                    sleep(1)
+                    sleep(0.5)
                 else:
                     empty_count = 0
                     refresh_count = 0
             except StaleElementReferenceException:
-                sleep(2)
+                sleep(0.5)
                 continue
             except KeyboardInterrupt:
                 print("\n")
