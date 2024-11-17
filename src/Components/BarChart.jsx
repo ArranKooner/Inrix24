@@ -1,18 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import debounce from "lodash.debounce";
 
 // Registering necessary components from Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-export function HorizontalBarChart() {
+const HorizontalBarChart =() => {
+
+    const [data1, setData1] = useState(null); // Fetch the data from the Flask server
+    const [data2, setData2] = useState(null);
+
+    const fetchData = debounce(async () => {
+        try {
+            const res = await fetch("http://127.0.0.1:5000/?company=microsoft");
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            const result = await res.json();
+            setData1(result.outputs[0]);
+            setData2(result.outputs[1]);
+            //console.log("data is : ", result);
+        } catch (err) {
+            setError(err.message);
+            console.error("Fetch error:", err.message);
+        }
+    }, 300);
+
+    useEffect(() => {
+        fetchData();
+
+    return () => fetchData.cancel(); // Cleanup on unmount
+    }, []);
+
+
+    const states = data1 ? String(data1).split(',') : [];
+    const stateNum = data2 ? String(data2).split(',') : [];
+
   // Data for the chart
-    const data = {
-        labels: ['State1', 'State2', 'State3', 'State4', 'State5', 'State6', 'State7', 'State8'], // Labels on the Y-axis
+    const chartdata = {
+        labels: states, // Labels on the Y-axis
         datasets: [
             {
                 label: 'Most Searched in States',
-                data: [12, 19, 3, 5, 12, 5, 5, 5], // Values for each bar
+                data: stateNum, // Values for each bar
                 backgroundColor: ['#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ADD8E6', '#ea9999', '#ea9999', '#ea9999'], // Bar colors
                 borderColor: ['black', 'black', 'black', 'black', 'black', 'black', 'black', 'black'], // Bar border colors
                 borderWidth: 1,
@@ -33,7 +64,8 @@ export function HorizontalBarChart() {
     };
     return (
         <div style={{ width: '100%', height: '90%'  }}>
-            <Bar data={data} options={options} />
+            <Bar data={chartdata} options={options} />
         </div>
     );
 }
+export default HorizontalBarChart
