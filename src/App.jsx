@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import {  Button  } from './Components/Button'
-import { Textbox } from './Components/Textbox'
 import TextInput from './Components/TextInput'
 
 import Home from './Components/home'
