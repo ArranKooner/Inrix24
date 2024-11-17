@@ -1,81 +1,135 @@
-grid-container {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
+
+.grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: 1fr 1fr; 
-    gap: 10px; 
-    padding: 0; 
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    grid-template-rows: 1fr 1fr; /* Two rows */
+    gap: 20px; /* Spacing between grid items */
+    padding: 10px; /* Add padding around the grid */
     margin: 0 auto; 
     width: 98%; 
     height: 85vh; 
     align-items: stretch;
     justify-items: stretch;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(20px); /* Start slightly shifted down */
+    animation: fade-in 0.8s ease forwards; /* Fade and slide in */
+    overflow: hidden; /* Prevent grid overflow */
 }
 
-/* Remove extra space between the rows */
+/* Fade-in animation */
+@keyframes fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Box styles with scrollable content */
 .box {
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    overflow: hidden; /* Add this if content overflows */
+    height: 100%; /* Ensure the box takes the entire allocated height */
+  }
+  
+  .box > div {
+    overflow-y: auto; /* Ensure child divs inside the box are scrollable */
+    max-height: 100%;
+    width: 100%; /* Prevent content from overflowing horizontally */
+  }
+  
+
+.box .content {
+    overflow-y: auto; /* Allow scrolling inside boxes for extra content */
+    margin: 0 10px; /* Add margin inside the box for content */
+    padding: 10px;
+    max-height: 100%; /* Limit height for scrolling */
 }
 
-/* Navbar styling */
+/* Slide-in animation */
+@keyframes slide-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effects for boxes */
+.box:hover {
+    transform: translateY(-10px); /* Slight lift on hover */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+    background-color: #f7f9fc; /* Subtle background change */
+}
+
 nav {
-    background-color: #7ba4e0; /* Light blue background */
-    padding: 10px 20px;
-    position: sticky; /* Make navbar sticky */
+    background: linear-gradient(
+        600deg,
+        rgba(123, 164, 224, 0.8),
+        rgba(123, 164, 224, 0.8),
+        rgba(123, 164, 224, 0.8)
+    );
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-radius: 0;
+    text-align: center;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    width: 100%; /* Full width */
-    z-index: 1000; /* Ensure navbar stays on top */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation effect */
-    border-radius: 0; /* Removed rounded edges for a cleaner look */
-  }
-  
-  /* Navbar links container */
-  nav ul {
-    list-style: none;
+    z-index: 10;
+    animation: slide-down 0.5s ease forwards; /* Navbar animation */
+}
+
+/* Slide-down animation for navbar */
+@keyframes slide-down {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Navigation links */
+nav ul {
+    list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex; /* Flexbox for horizontal layout */
-    justify-content: center; /* Center the links */
-    align-items: center; /* Center links vertically */
-  }
-  
-  /* Navbar links */
-  nav ul li {
-    margin: 0 15px; /* Spacing between links */
-  }
-  
-  nav ul li a {
-    color: white; /* Default text color */
-    text-decoration: none; /* Remove underline */
-    font-size: 1.5rem; /* Adjust font size */
-    padding: 10px 20px; /* Add padding for better spacing */
-    border-radius: 5px; /* Add rounded corners for a softer look */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
-  }
-  
-  /* Hover effect for navbar links */
-  nav ul li a:hover {
-    background-color: #edc9a7; /* Orange-golden shade */
-    color: white; /* White text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow effect */
-    transform: scale(1.05); /* Slight zoom effect */
-  }
-  
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between navigation links */
+    font-family: 'Roboto', sans-serif; /* Updated font */
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 18px; /* Adjust font size */
+    color: rgb(45, 18, 18);
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: rgba(255, 255, 255, 0.785); /* Subtle hover effect for links */
+}
 
 /* Body settings for removing additional space */
 body {
+    background: linear-gradient(135deg, #c0c0c2, #d9e9ff); /* Subtle blue gradient */
+    font-family: 'Inter', sans-serif; /* Updated font for consistency */
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scrollbars */
 }
 
 /* Reduce the space between rows and columns */
@@ -84,22 +138,37 @@ body {
     padding: 0;
 }
 
-
 /* Styling for charts and sections inside boxes */
 .chart, .section, .exsion {
     width: 100%;
-    height: 100%; /* Ensure the content fits the box */
+    height: 100%;
 }
 
 /* Titles inside boxes */
 h2 {
-    font-size: 1.5rem;
+    font-family: 'Roboto', sans-serif; /* Clean and modern font */
+    font-size: 1.6rem;
     margin-bottom: 15px;
     color: #333;
+    text-transform: uppercase;
+    animation: fade-in-title 0.8s ease forwards; /* Title animation */
+}
+
+/* Fade-in animation for titles */
+@keyframes fade-in-title {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Subtitles inside sections */
 h3 {
+    font-family: 'Inter', sans-serif; /* Clean and consistent font */
     font-size: 1.2rem;
     margin-bottom: 10px;
     color: #555;
@@ -110,37 +179,57 @@ h3 {
     .grid-container {
         grid-template-columns: 1fr; /* Single column layout for small screens */
     }
-}
-
-
-/* Hover effect for boxes */
-.box:hover {
-    transform: translateY(-5px); /* Slight upward movement */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-}
-
-/* Styling for charts and sections inside boxes */
-.chart, .section, .exsion {
-    width: 100%;
-    height: 100%; /* Ensure the content fits the box */
-}
-
-/* Titles inside boxes */
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-/* Subtitles inside sections */
-h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr; 
+    nav ul {
+        flex-direction: column; /* Stack navigation links */
+        gap: 20px; /* Space between stacked links */
     }
 }
+
+/* Container for News2 */
+.news2-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  /* Title styling */
+  .news2-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center; /* Center the title */
+  }
+  
+  /* Content area with scrollable text */
+  .news2-content {
+    flex-grow: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle inner shadow */
+  }
+  
+  /* Optional: Scrollbar styling */
+  .news2-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .news2-content::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+  }
+  
+  .news2-content::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+  }
+  
+  

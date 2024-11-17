@@ -26,8 +26,12 @@ const News = () => {
   }, [username]);
 
   return (
-    <div>
-      {data6 ? <p style={{fontSize: '16px'}}>{data6}</p> : <p>Loading...</p>}
+    <div style={{ overflowY: 'auto', maxHeight: '100%', padding: '10px', margin: '5px' }}>
+      {data6 ? (
+        <p style={{ fontSize: '12px', lineHeight: '1.5' }}>{data6}</p>
+      ) : (
+        <p>Loading...</p>
+      )}
       {error && <p>Error: {error}</p>}
     </div>
   );

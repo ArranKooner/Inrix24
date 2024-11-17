@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import debounce from 'lodash.debounce';
-import { useUser } from './UserContext';
+import React, { useState, useEffect } from "react";
+import debounce from "lodash.debounce";
+import { useUser } from "./UserContext";
 
 const News2 = () => {
   const { username } = useUser();
@@ -26,8 +26,14 @@ const News2 = () => {
   }, [username]);
 
   return (
-    <div>
-      {data8 ? <p style={{fontSize: '16px'}}>{data8}</p> : <p>Loading...</p>}
+    <div style={{ overflowY: "auto", maxHeight: "90%", padding: "10px" }}>
+      {data8 ? (
+        <p style={{ fontSize: "12px", lineHeight: "1.5", whiteSpace: "pre-wrap" }}>
+          {data8}
+        </p>
+      ) : (
+        <p>Loading...</p>
+      )}
       {error && <p>Error: {error}</p>}
     </div>
   );
