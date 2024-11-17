@@ -17,8 +17,7 @@ function App() {
         <nav>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/pageone">Page One</Link></li>
-            <li><Link to="/pagetwo">Page Two</Link></li>
+            <li><Link to="/pagetwo">About</Link></li>
           </ul>
         </nav>
         {/* Routes */}

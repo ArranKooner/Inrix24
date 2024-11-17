@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import '../Components/home.css'
+import Login from './Login'
 
 
 export function Home() {
@@ -31,55 +32,14 @@ export function Home() {
 
     return (
     <div>
-        <img src="/L.png" alt="Logo" className="logo" />
+        <img src="/realogo2.jpg" alt="Real" className="logo" />
 
         <p></p>
-        
-        <Textbox />
-        <Textbox />
+        <Login />
         <p></p>
 
-        <button onClick={handleGoToPageOne}>Analyze!</button>
-
-        <p></p>
-        <div className="dropdown">
-          <button onClick={toggleDropdown} className="dropdown-toggle">
-            {selectedPage ? `Go to ${selectedPage}` : 'Select a Page'} ▼
-          </button>
-        
-          {isDropdownOpen && (
-            <ul className="dropdown-menu">
-              <li onClick={() => handleDropdownChange({ target: { value: 'PageOne' } })}>Page One</li>
-              <li onClick={() => handleDropdownChange({ target: { value: 'PageTwo' } })}>Page Two</li>
-            </ul>
-          )}
-        </div>
     </div>
     );
-}
-
-function Textbox() {
-  const [text, setText] = useState(''); // State to store the value of the input
-
-  // Handle input change
-  const handleChange = (event) => {
-    setText(event.target.value); // Update the state with the value of the input field
-  };
-
-  return (
-    <div>
-      <label htmlFor="text-box">Enter text: </label>
-      <input
-        type="text"
-        id="text-box"
-        value={text}
-        onChange={handleChange} // Update state on every change
-        placeholder="Type something..."
-        className="text-box"
-      />
-      <p>You typed: {text}</p> {/* Display the typed text */}
-    </div>
-  );
 }
 
 export default Home
