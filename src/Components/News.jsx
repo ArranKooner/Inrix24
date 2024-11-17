@@ -15,7 +15,7 @@ const News = () => {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const result = await res.json();
-        setData(result.outputs[0]);
+        setData(result.outputs[1]);
       } catch (err) {
         setError(err.message);
       }
@@ -27,7 +27,7 @@ const News = () => {
 
   return (
     <div>
-      {data ? <p>{data}</p> : <p>Loading...</p>}
+      {data ? <p style={{fontSize: '9px'}}>{data}</p> : <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
     </div>
   );
